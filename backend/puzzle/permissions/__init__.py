@@ -1,0 +1,2 @@
+from puzzle.permissions.post import PostsAndCommentsPermissions
+from puzzle.permissions.inventory import InventoryPermissions
