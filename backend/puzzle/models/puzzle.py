@@ -35,7 +35,7 @@ class Puzzle(models.Model):
         max_length=3,
         choices=PieceShape.choices
     )
-    condition = models.TextField(
+    box_condition = models.TextField(
         max_length=3,
         choices=Condition.choices
     )
@@ -44,4 +44,3 @@ class Puzzle(models.Model):
 
     theme = models.ForeignKey("Theme", on_delete=models.CASCADE)
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE)
-    collage = models.ForeignKey('Collage', on_delete=models.CASCADE)

@@ -7,3 +7,4 @@ from puzzle.serializers.post import PostSerializer
 from puzzle.serializers.comment import CommentSerializer
 from puzzle.serializers.theme import ThemeSerializer
 from puzzle.serializers.inventory import InventorySerializer
+from puzzle.serializers.image import ImageSerializer

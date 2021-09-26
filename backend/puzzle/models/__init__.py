@@ -6,3 +6,4 @@ from puzzle.models.post import Post
 from puzzle.models.comment import Comment
 from puzzle.models.inventory import Inventory
 from puzzle.models.theme import Theme
+from puzzle.models.image import Image
