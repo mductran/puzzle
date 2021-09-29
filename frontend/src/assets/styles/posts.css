@@ -1,3 +1,11 @@
+.posts-container {
+    margin: auto;
+    margin-top:50px;
+    width: 40%;
+    position: relative;
+    padding: 10px;
+}
+
 .card-container {
     margin: 10px;
     padding: 10px;
@@ -6,4 +14,8 @@
 table, th, td{
     border: 1px solid black;
     border-collapse: collapse;
+}
+
+v-pagination {
+    margin: auto;
 }
