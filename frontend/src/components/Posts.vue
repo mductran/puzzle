@@ -2,11 +2,13 @@
  <div class="posts-container" id="posts-container">
     <v-container>
         <v-responsive :width="0.6*$vuetify.breakpoint.width" class="justify-center">
-            <v-card v-for="post in posts" :key="post.id" justify-center>
+            <v-card v-for="post in posts" :key="post.id" justify-center outlined class="card" elevation="7">
                 <v-card-title> {{post.author_name}} </v-card-title>
+                <v-card-subtitle> {{post.updated}} </v-card-subtitle>
                 <v-card-text> {{post.content}} </v-card-text>
-                <v-img height=125 :src="post.image"></v-img>
+                <v-img contain :height="0.6*$vuetify.breakpoint.height" :src="post.image" class="post-image"></v-img>
             </v-card>
+            <v-divider class="mx-4"></v-divider>
         </v-responsive>
 
         <v-spacer></v-spacer>

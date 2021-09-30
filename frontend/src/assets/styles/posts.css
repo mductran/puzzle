@@ -23,3 +23,13 @@ table, th, td{
 .theme--light.v-pagination .v-pagination__item--active {
     color: blue;
 }
+
+.card {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.post-image {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
