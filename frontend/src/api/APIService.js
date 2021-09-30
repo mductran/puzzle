@@ -7,8 +7,8 @@ export class APIService{
 constructor(){
 }
 
-getItems(endPoint){
-    const url = baseURL + endPoint;
+getItems(endPoint, page=1){
+    const url = baseURL + endPoint + "?page=" + page;
     return axios.get(url).then(response => {return response.data;});
 }
 

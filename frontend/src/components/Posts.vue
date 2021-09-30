@@ -1,5 +1,5 @@
 <template>
- <div class="posts-container">
+ <div class="posts-container" id="posts-container">
     <v-container>
         <v-responsive :width="0.6*$vuetify.breakpoint.width" class="justify-center">
             <v-card v-for="post in posts" :key="post.id" justify-center>
@@ -11,7 +11,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-pagination v-model="total_pages" :length="10">
+        <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" circle id="pagination">
         </v-pagination>
 
     </v-container> 
@@ -40,23 +40,29 @@ export default {
             posts: [],
             columns: [],
             numberOfPosts: 0,
-            total_pages: 0,
+            totalPages: 0,
+            currentPage: 1,
         }
     },
     methods: {
         getPosts(){
-            apiService.getItems("posts").then(
+            apiService.getItems("posts", this.currentPage).then(
                 (response) => {
                     this.numberOfPosts = response.results.length
                     this.posts = response.results
-                    this.total_pages = response.total_pages
+                    this.totalPages = response.total_pages
                 }
             )
         },
         onResize () {
-            this.windowSize = { x: window.innerWidth, y: window.innerHeight 
-        }
-    }
+            this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+        },
+        handlePagination(value) {
+            this.currentPage = value
+            this.getPosts()
+            document.body.scrollTop = 0; // Safari scroll top
+            document.documentElement.scrollTop = 0; // Chrome, FF scroll top
+        },
     },
     mounted(){
         this.onResize()

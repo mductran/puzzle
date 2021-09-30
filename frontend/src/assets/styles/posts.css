@@ -16,6 +16,10 @@ table, th, td{
     border-collapse: collapse;
 }
 
-v-pagination {
-    margin: auto;
+#pagination {
+    margin-top: 60px;
+}
+
+.theme--light.v-pagination .v-pagination__item--active {
+    color: blue;
 }
