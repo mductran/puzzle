@@ -1,7 +1,9 @@
 <template>
   <div class="header">
       <v-toolbar dense class="fixed-bar" id="navbar">
-        <v-img contain src="../assets/thuzzle-logo.png" :max-height="logoHeight" :max-width="logoWidth"></v-img>
+        <v-btn class="logo-btn" plain>
+          <v-img contain src="../assets/thuzzle-logo.png" :max-height="logoHeight" :max-width="logoWidth" @click="logoClick"></v-img>
+        </v-btn>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text>Swapping</v-btn>
@@ -32,11 +34,14 @@ export default {
       }
     },
     methods: {
-      resizeLogo(){
+      resizeLogo() {
         this.logoHeight = document.getElementById("navbar").offsetHeight
         this.logoWidth = document.getElementById("navbar").offsetWidth * 0.1
         console.log("navbar height", this.navbarHeight)
       },
+      logoClick() {
+        window.location.href = "http://localhost:8080/"
+      }
     },
     mounted() {
       this.resizeLogo()
