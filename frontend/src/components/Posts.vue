@@ -2,7 +2,7 @@
  <div class="posts-container" id="posts-container">
     <v-container>
         <v-responsive :width="0.6*$vuetify.breakpoint.width" class="justify-center">
-            <v-card v-for="post in posts" :key="post.id" justify-center outlined class="card" elevation="7">
+            <v-card v-for="post in posts" :key="post.id" justify-center outlined class="card">
                 <v-card-title> {{post.author_name}} </v-card-title>
                 <v-card-subtitle> {{post.updated}} </v-card-subtitle>
                 <v-card-text> {{post.content}} </v-card-text>
@@ -13,7 +13,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" circle id="pagination">
+        <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" id="pagination">
         </v-pagination>
 
     </v-container> 

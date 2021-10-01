@@ -2,12 +2,15 @@
   <div name="app">
     <Header/>
     <Posts/>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Posts from './components/Posts.vue'
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+
+import Posts from './components/Posts.vue'
 
 import "vuetify/dist/vuetify.min.css"
 
@@ -16,7 +19,8 @@ export default {
   name: 'App',
   components: {
     Header,
-    Posts
+    Posts,
+    Footer
   },
   data: () => ({
     //
