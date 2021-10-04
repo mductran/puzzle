@@ -9,6 +9,7 @@
           <v-btn text>Swapping</v-btn>
           <v-btn text>Your Storefront</v-btn>
           <v-btn text>For sale</v-btn>
+          <v-btn text>Sign in</v-btn>
         </v-toolbar-items>
       </v-toolbar>
   </div>
