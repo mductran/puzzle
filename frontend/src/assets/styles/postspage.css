@@ -11,11 +11,6 @@
     padding: 10px;
 }
 
-table, th, td{
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
 #pagination {
     margin-top: 60px;
 }
@@ -24,7 +19,7 @@ table, th, td{
     color: blue;
 }
 
-.card {
+.post-card {
     margin-top: 30px;
     margin-bottom: 30px;
 }
@@ -32,4 +27,16 @@ table, th, td{
 .post-image {
     margin-top: 10px;
     margin-bottom: 25px;
+    width: 99%;
+    margin: 0 auto;
+}
+
+.comment-section {
+    width: 99%;
+    margin: 0 auto;
+    padding: 2%;
+}
+
+.comment-card {
+    outline: 1px solid rgba(0,0,0,.125);
 }

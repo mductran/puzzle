@@ -38,7 +38,6 @@ export default {
       resizeLogo() {
         this.logoHeight = document.getElementById("navbar").offsetHeight
         this.logoWidth = document.getElementById("navbar").offsetWidth * 0.1
-        console.log("navbar height", this.navbarHeight)
       },
       logoClick() {
         window.location.href = "http://localhost:8080/"

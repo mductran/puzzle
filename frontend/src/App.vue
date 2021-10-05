@@ -1,7 +1,7 @@
 <template>
   <div name="app">
     <Header/>
-    <Posts/>
+    <PostsPage/>
     <Footer/>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 
-import Posts from './components/Posts.vue'
+import PostsPage from './pages/PostPage.vue'
 
 import "vuetify/dist/vuetify.min.css"
 
@@ -19,7 +19,7 @@ export default {
   name: 'App',
   components: {
     Header,
-    Posts,
+    PostsPage,
     Footer
   },
   data: () => ({
