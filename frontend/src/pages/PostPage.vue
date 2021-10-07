@@ -11,7 +11,6 @@
 
         <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" id="pagination">
         </v-pagination>
-
     </v-container> 
  </div>
 </template>
@@ -22,9 +21,9 @@
 
 
 <script>
-import {APIService} from '../api/APIService'
 import "vuetify/dist/vuetify.min.css"
 
+import {APIService} from '../api/APIService'
 import Post from '../components/Post.vue'
 
 require ("../assets/styles/postspage.css")
@@ -37,7 +36,7 @@ export default {
     components: {
         Post,
     },
-    data(){
+    data() {
         return {
             posts: {},
             numberOfPosts: 0,
@@ -45,31 +44,32 @@ export default {
             currentPage: 1,
         }
     },
+    // watch: {
+    //   overlay (val) {
+    //     val && setTimeout(() => {
+    //       this.overlay = false
+    //     }, 2000)
+    //   },
+    // },
     methods: {
         getPosts(){
             apiService.getItems("posts", this.currentPage).then(
                 (response) => {
                     this.numberOfPosts = response.results.length
                     this.totalPages = response.total_pages
-                    // response.results.forEach(element => {
-                    //     console.log(element)
-                    // })
                     this.posts = response.results
-                    console.log("POSTS", this.posts)
                 }
             )
         },
         onResize () {
             this.windowSize = { x: window.innerWidth, y: window.innerHeight }
-            this.cardWidth = 0.6*this.windowSize.innerWidth
+            this.postHeight = 0.4*this.windowSize.innerHeight
             this.imageHeight = 0.5*this.windowSize.innerHeight
-            console.log('image height source', this.imageHeight)
         },
         handlePagination(value) {
             this.currentPage = value
             this.getPosts()
-            document.body.scrollTop = 0; // Safari scroll top
-            document.documentElement.scrollTop = 0; // Chrome, FF scroll top
+            window.scrollTo({top: 0, behavior: "smooth"})
         },
     },
     mounted(){

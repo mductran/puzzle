@@ -1,6 +1,6 @@
 <template>
     <v-card justify-center outlined class="post-card">
-        <v-card-title> {{ postContent.author_name }} </v-card-title>
+        <v-card-title> @{{ postContent.author_name }} </v-card-title>
         <v-card-subtitle> {{ getMoment(postContent.updated) }} </v-card-subtitle>
         <v-card-text> {{ postContent.content }} </v-card-text>
         <v-img contain :height="imageHeight" :src="postContent.image" class="post-image"></v-img>
@@ -50,7 +50,6 @@ export default ({
         }
     },
     mounted() {
-        console.log("image height", this.imageHeight)
     }
 })
 </script>
