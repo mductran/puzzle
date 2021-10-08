@@ -1,5 +1,4 @@
 <template>
- <div class="posts-container" id="posts-container">
     <v-container>
         <v-responsive class="justify-center">
             <div v-for="post in posts" :key="post.id">
@@ -12,7 +11,6 @@
         <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" id="pagination">
         </v-pagination>
     </v-container> 
- </div>
 </template>
 
 <style>
@@ -44,13 +42,6 @@ export default {
             currentPage: 1,
         }
     },
-    // watch: {
-    //   overlay (val) {
-    //     val && setTimeout(() => {
-    //       this.overlay = false
-    //     }, 2000)
-    //   },
-    // },
     methods: {
         getPosts(){
             apiService.getItems("posts", this.currentPage).then(

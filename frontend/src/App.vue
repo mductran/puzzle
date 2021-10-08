@@ -1,7 +1,9 @@
 <template>
 	<div name="app">
 		<Header/>
-		<component :is="page"></component>
+		<div class="page-container">
+			<component :is="page"></component>			
+		</div>
 		<Login v-bind:show="overlay"/>
 		<Footer/>
 	</div>
@@ -20,6 +22,7 @@ import YourStore from './pages/YourStore.vue'
 
 import "vuetify/dist/vuetify.min.css"
 
+require("./assets/styles/app.css")
 
 export default {
 	name: 'App',

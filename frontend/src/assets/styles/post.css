@@ -1,0 +1,17 @@
+.post-card {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.post-image {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.comment-section {
+    width: 99%;
+    margin: 0 auto;
+    padding: 2%;
+}

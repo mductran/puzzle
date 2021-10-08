@@ -5,8 +5,6 @@
         <v-card-text> {{ postContent.content }} </v-card-text>
         <v-img contain :height="imageHeight" :src="postContent.image" class="post-image"></v-img>
         
-        <v-divider class="mx-4"></v-divider>
-        
         <v-card-actions>
             <v-btn text style="width: 50%;">
                 React
@@ -28,6 +26,8 @@
 import "vuetify/dist/vuetify.min.css"
 import Comment from "../components/Comment.vue"
 import moment from 'moment'
+
+require("../assets/styles/post.css")
 
 export default ({
     name: "Post",

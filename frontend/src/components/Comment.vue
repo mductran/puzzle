@@ -12,6 +12,8 @@
 import "vuetify/dist/vuetify.min.css"
 import moment from 'moment'
 
+require("../assets/styles/comment.css")
+
 export default ({
     name: "Comment",
     components: {},

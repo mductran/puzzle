@@ -1,44 +1,7 @@
-.posts-container {
-    margin: auto;
-    margin-top:50px;
-    width: 40%;
-    position: relative;
-    padding: 10px;
-}
-
-.card-container {
-    margin: 10px;
-    padding: 10px;
-}
-
 #pagination {
     margin-top: 60px;
 }
 
 .theme--light.v-pagination .v-pagination__item--active {
     color: blue;
-}
-
-.post-card {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.post-image {
-    margin-top: 10px;
-    margin-bottom: 25px;
-    width: 99%;
-    margin: 0 auto;
-}
-
-.comment-section {
-    width: 99%;
-    margin: 0 auto;
-    padding: 2%;
-}
-
-.comment-card {
-    /* outline: 1px solid rgba(0,0,0,.125); */
-    margin-top: 5px;
-    margin-bottom: 10px;
 }
