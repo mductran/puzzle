@@ -9,6 +9,7 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = "__all__"
+        print(fields)
 
     def create(self, validated_data):
         user_data_serializer = UserSerializer(data=validated_data.pop('user'))
