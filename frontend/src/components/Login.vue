@@ -1,23 +1,32 @@
 <template>
 <v-overlay v-if="show">
-	<v-card outlined :light="true" min-width="500px">
+	<v-card outlined :light=true min-width="500px">
 		<v-card-title>
 			<span>Login Panel</span>
 			<v-spacer></v-spacer>
-			<template>
-                <v-btn icon @click.stop="close">
-					<v-icon>mdi-window-close</v-icon>
-                </v-btn>
-			</template>
+			<v-btn icon @click.stop="close">
+				x
+			</v-btn>
 		</v-card-title>
-		<v-text-field outlined label="Username" v-model="name">username</v-text-field>
-		<v-text-field outlined label="Password" v-model="password" :append-icon="visiblePwd ? 'mdi-eye' : 'mdi-eye-off'"  @click:append="visiblePwd = !visiblePwd" :type="visiblePwd ? 'text' : 'password'">
-			password
-		</v-text-field>
-
-		<a href="https://www.google.com/search?channel=fs&q=how+to+reset+password" style="color: blue;">Forgot your password?</a>
 		
-		<br><br>
+		<p v-if="incorrect" style="color: red;"> Incorrect username or password </p>
+		<br>
+
+		<v-text-field
+			label="Username" 
+			v-model="name"
+			class="shrink mx-4"></v-text-field>
+		<v-text-field 
+			label="Password" 
+			v-model="password" 
+			:append-icon="visiblePwd ? 'mdi-eye' : 'mdi-eye-off'" 
+			:type="visiblePwd ? 'text' : 'password'"
+			@click:append="visiblePwd = !visiblePwd" 
+			class="shrink mx-4"></v-text-field>
+
+		<a href="https://www.google.com/search?channel=fs&q=how+to+reset+password" style="color: blue; margin: 1rem;">Forgot your password?</a>
+		
+		<br>
         
 		<v-card-actions>
             <v-btn text style="width: 50%;" @click.stop="register">
@@ -32,15 +41,15 @@
 </v-overlay>
 </template>	
 
+<style>
+@import "../assets/styles/login.css";
+</style>
+
 <script>
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
-import "vuetify/dist/vuetify.min.css"
-
 import EventBus from "./EventBus"
-import {APIService} from "../api/APIService"
-
-require("../assets/styles/login.css")
+import {APIService} from "../utils/APIService"
 
 Vue.use(Vuetify)
 const apiService = new APIService()
@@ -50,11 +59,17 @@ export default {
 	props: {
 		show: Boolean,
 	},
+	computed: {
+		closeLoginBox() {
+			return this.loggedIn
+		}
+	},
     data(){
       return {
 		name: '',
 		password: '',
 		visiblePwd: false,
+		incorrect: false,
 		rules: {
 				required: value => !!value || "Required",
 		},
@@ -62,21 +77,29 @@ export default {
     },
     methods: {
 		login() {
-			console.log('credentials', this.name, this.password)
-			apiService.login(this.name, this.password).then(
+			apiService.post('accounts/login/', {'username': this.username, 'password': this.password}).then(
 				(response) => {
-					console.log(response)
+					if (response.status == 200) {
+						var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+						let accessToken = apiService.parseJwt(response.data['access'])
+						EventBus.$emit('loggedInSuccessfully', accessToken['username'])
+						document.cookie = "accessToken=" + response.data['access'] + "; expire=" + expires + 5*60
+						document.cookie = "refreshToken=" + response.data['refresh'] + "; expire=" + expires + 12*60*60
+					}
+					else {
+						this.incorrect = true
+					}
 				}
 			)
 		},
 		register() {
-			console.log('registering')
+			this.close()
+			EventBus.$emit("swapPage", "Register")
 		},
 		close() {
 			EventBus.$emit('revealLoginOverlay')
 		}
 	},
-    mounted() {
-    }
+    mounted() { }
 }
 </script>

@@ -1,11 +1,13 @@
 <template>
 	<div name="app">
-		<Header/>
-		<div class="page-container">
-			<component :is="page"></component>			
-		</div>
-		<Login v-bind:show="overlay"/>
-		<Footer/>
+		<v-app>
+			<Header/>
+			<div class="page-container">
+				<component :is="page"></component>			
+			</div>
+			<Login v-bind:show="overlay"/>
+			<Footer/>
+		</v-app>
 	</div>
 </template>
 
@@ -19,10 +21,16 @@ import PostsPage from './pages/PostPage.vue'
 import Puzzle from './pages/Puzzle.vue'
 import Trade from './pages/Trade.vue'
 import YourStore from './pages/YourStore.vue'
+import AccountDetail from './pages/AccountDetails.vue'
+import Register from './pages/Register.vue'
 
+import Vue from 'vue'
+import Vuetify from 'vuetify'
 import "vuetify/dist/vuetify.min.css"
 
 require("./assets/styles/app.css")
+
+Vue.use(Vuetify)
 
 export default {
 	name: 'App',
@@ -33,7 +41,9 @@ export default {
 		Login,
 		Puzzle,
 		Trade,
-		YourStore
+		YourStore,
+		AccountDetail,
+		Register,
 	},
 	data: () => ({
 		overlay: false,
@@ -44,16 +54,20 @@ export default {
 			this.overlay = !this.overlay
 		},
 		swapPage(newPage) {
-			console.log("receive page", newPage)
 			this.page = newPage
+		},
+		closeLoginBox() {
+			this.overlay = false
 		}
 	},
 	mounted() {
 		EventBus.$on("revealLoginOverlay", this.revealLoginOverlay)
+		EventBus.$on("loggedInSuccessfully", this.closeLoginBox)
 		EventBus.$on("swapPage", this.swapPage)
 	},
 	destroyed() {
 		EventBus.off("revealLoginOverlay")
+		EventBus.off("loggedInSuccessfully")
 		EventBus.off("swapPage")
 	},
 }

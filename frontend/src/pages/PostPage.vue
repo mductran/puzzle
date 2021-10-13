@@ -21,7 +21,7 @@
 <script>
 import "vuetify/dist/vuetify.min.css"
 
-import {APIService} from '../api/APIService'
+import {APIService} from '../utils/APIService'
 import Post from '../components/Post.vue'
 
 require ("../assets/styles/postspage.css")

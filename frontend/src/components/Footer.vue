@@ -54,8 +54,6 @@
     </div>
 </template>
 
-<script>
-
-require("../assets/styles/footer.css")
-
-</script>
+<style>
+@import "../assets/styles/footer.css";
+</style>
