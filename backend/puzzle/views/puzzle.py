@@ -11,8 +11,8 @@ class PuzzleView(ModelViewSet):
     queryset = Puzzle.objects.all()
     serializer_class = PuzzleSerializer
     filter_backends = [DjangoFilterBackend]
-    search_fields = ['name', 'brand', 'theme',
+    search_fields = ['name', 'brand__name', 'theme__name',
                      'piece_shape', 'outline', 'box_condition']
-    filterset_fields = ['name', 'brand', 'theme',
+    filterset_fields = ['name', 'brand__name', 'theme__name',
                      'piece_shape', 'outline', 'box_condition']
     ordering_fields = ['pieces, ']
