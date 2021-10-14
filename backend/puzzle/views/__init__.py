@@ -7,3 +7,4 @@ from puzzle.views.comment import CommentView
 from puzzle.views.theme import ThemeView
 from puzzle.views.inventory import InventoryView
 from puzzle.views.image import ImageView
+from puzzle.views.token import CustomTokenObtainPairView

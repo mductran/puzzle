@@ -3,16 +3,18 @@
 	<v-toolbar dense class="fixed-bar" id="navbar">
 		<v-btn class="logo-btn" plain>
 			<v-img
-			contain
-			src="../assets/thuzzle-logo.png"
-			:max-height="logoHeight"
-			:max-width="logoWidth"
-			@click="logoClick"
+				contain
+				src="../assets/thuzzle-logo.png"
+				:max-height="logoHeight"
+				:max-width="logoWidth"
+				@click="logoClick"
 			></v-img>
 		</v-btn>
 		
 		<v-spacer></v-spacer>
-		
+
+		<v-spacer></v-spacer>
+
 		<v-btn text @click.stop="swapPage('Trade')"> Trade </v-btn>
 		<v-btn text @click.stop="swapPage('Puzzle')"> For sale </v-btn>
 		<v-btn text @click.stop="swapPage('Inventory')"> Inventory </v-btn>
@@ -54,6 +56,9 @@ const apiService = new APIService()
 
 export default {
 	name: "Header",
+	icons: {
+		iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+	},
 	data() {
 		return {
 			logoWidth: 0,

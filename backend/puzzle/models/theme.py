@@ -6,4 +6,3 @@ class Theme(models.Model):
         ordering = ["id"]
     
     name = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)

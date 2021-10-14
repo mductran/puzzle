@@ -8,3 +8,4 @@ from puzzle.serializers.comment import CommentSerializer
 from puzzle.serializers.theme import ThemeSerializer
 from puzzle.serializers.inventory import InventorySerializer
 from puzzle.serializers.image import ImageSerializer
+from puzzle.serializers.token import TokenSerializer

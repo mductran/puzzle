@@ -23,6 +23,7 @@ class Puzzle(models.Model):
         missing_pieces = "mis", _("missing pieces")
         sealed = "sea", _("sealed")
 
+    name = models.CharField(max_length=255)
     pieces = models.IntegerField()
     size_width = models.IntegerField()
     size_height = models.IntegerField()

@@ -15,7 +15,8 @@
 		<v-text-field
 			label="Username" 
 			v-model="name"
-			class="shrink mx-4"></v-text-field>
+			class="shrink mx-4">
+		</v-text-field>
 		<v-text-field 
 			label="Password" 
 			v-model="password" 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from django.dispatch import receiver
 
 
 class Account(models.Model):
@@ -15,3 +16,7 @@ class Account(models.Model):
         max_length=3,
         choices=Profile.choices
     )
+
+@receiver(models.signals.post_delete, sender=Account)
+def post_delete_user(sender, instance, **kwargs):
+    instance.user.delete()
