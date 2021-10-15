@@ -17,6 +17,6 @@ router.register(r'images', ImageView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('accounts/login/', CustomTokenObtainPairView.as_view()),
-    path('accounts/refresh/', TokenRefreshView.as_view())
+    path('accounts/login/', CookieTokenObtainPairView.as_view()),
+    path('accounts/refresh/', CookieTokenRefreshView.as_view())
 ]
