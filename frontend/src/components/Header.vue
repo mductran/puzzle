@@ -92,12 +92,8 @@ export default {
 		getCurrentUser() {
 			let accessToken = cookiesUtils.getCookie("accessToken")
 			if (accessToken) {
-				console.log("access token found", accessToken)
 				this.loggedIn = true
 				this.username = apiService.parseJwt(accessToken)['username']
-			}
-			else {
-				console.log("access token not found")
 			}
 		},
 		logout() {

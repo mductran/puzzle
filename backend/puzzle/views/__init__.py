@@ -8,3 +8,6 @@ from puzzle.views.theme import ThemeView
 from puzzle.views.inventory import InventoryView
 from puzzle.views.image import ImageView
 from puzzle.views.token import CookieTokenObtainPairView, CookieTokenRefreshView
+from puzzle.views.logout import BlacklistRefreshView
+
+from puzzle.views.dummy import InterceptCookieView

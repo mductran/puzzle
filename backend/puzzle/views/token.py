@@ -15,10 +15,11 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
                 'No valid token found in cookie \'refresh_token\'')
 
 
+# TODO: add flag secure=True for obtain and refresh view
 class CookieTokenObtainPairView(TokenObtainPairView):
   def finalize_response(self, request, response, *args, **kwargs):
     if response.data.get('refresh'):
-        cookie_max_age = 3600 * 24 * 14  # 14 days
+        cookie_max_age = 3600 * 24 * 0.5  # 12 hours
         response.set_cookie(
             'refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True)
         del response.data['refresh']
@@ -26,9 +27,11 @@ class CookieTokenObtainPairView(TokenObtainPairView):
 
 
 class CookieTokenRefreshView(TokenRefreshView):
+    serializer_class = CookieTokenRefreshSerializer
+    
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
-            cookie_max_age = 3600 * 24 * 14  # 14 days
+            cookie_max_age = 3600 * 24 * 0.5  # 12 hours
             response.set_cookie(
                 'refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True)
             del response.data['refresh']

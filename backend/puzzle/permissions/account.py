@@ -6,16 +6,12 @@ class AccountDetailsPermission(permissions.BasePermission):
     """
     Only admin or matching Id can view
     """
-
-    def has_permission(self, request, view):
-        return request.user.is_authenticated
-
     def has_object_permission(self, request, view, obj):
         try:
             account = Account.objects.get(user__id=request.user.id)
-            if account.profile == "reg":
+            if account.profile == "adm":
                 return True
-            if obj.account__profile == "sto":
-                return request.method in permissions.SAFE_METHODS
+            if obj.profile == "sto" or obj.profile == "reg":
+                return request.user.id == obj.user.id
         except Account.DoesNotExist:
             return False

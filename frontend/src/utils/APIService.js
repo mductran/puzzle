@@ -5,34 +5,20 @@ const baseURL = 'http://localhost:8000/';
 export class APIService {
     constructor(){}
 
-    getItems(endPoint, page=1, token=null) {
+    getItems(endPoint, page=1) {
         const url = baseURL + endPoint + "?page=" + page;
-        if (token) {
-            var config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token 
-                }
-            }
-        }
-        return axios.get(url, config).then(
+        
+        return axios.get(url).then(
             response => {
                 return response.data
             }
         )
     }
 
-    getItem(endPoint, pk, token=null) {
+    getItem(endPoint, pk) {
         const url = baseURL + endPoint + "/" + pk;
-        if (token) {
-            var config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token 
-                }
-            }
-        }
-        return axios.get(url, config).then(
+
+        return axios.get(url).then(
             response => {
                 return response.data
             }
@@ -41,8 +27,12 @@ export class APIService {
 
     post(endPoint, payload) {
         const url = baseURL + endPoint
+		let config = {
+			withCredentials: true,
+			credentials: 'include'
+		}	
 
-        return axios.post(url, payload).then(
+        return axios.post(url, payload, config).then(
             response => {
                 return response
         }

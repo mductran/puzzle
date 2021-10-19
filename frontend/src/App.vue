@@ -17,8 +17,9 @@ import Login from './components/Login.vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 
-import PostsPage from './pages/PostPage.vue'
-import Puzzle from './pages/Puzzle.vue'
+import PostsPage from './pages/Posts.vue'
+import Puzzle from './pages/Puzzles.vue'
+import Inventory from './pages/Inventory.vue'
 import Trade from './pages/Trade.vue'
 import YourStore from './pages/YourStore.vue'
 import AccountDetail from './pages/AccountDetails.vue'
@@ -43,6 +44,7 @@ export default {
 		Trade,
 		YourStore,
 		AccountDetail,
+		Inventory,
 		Register,
 	},
 	data: () => ({

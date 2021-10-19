@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Trade",
+  name: "Inventory",
   data() {
     return {
 

@@ -12,5 +12,5 @@ class PostView(ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [PostsAndCommentsPermissions, ]
     filter_backends = [DjangoFilterBackend, ]
-    filterset_fields = ['content', 'author__username', ]
+    filterset_fields = ['content', 'author__user__username', ]
     ordering_fields = ['updated', ]

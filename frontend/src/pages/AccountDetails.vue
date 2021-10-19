@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         getCurrentUser() {
-            let access = apiService.parseJwt(cookieUtils.getCookie("accessToken"))
+            let access = apiService.parseJwt(cookieUtils.getCookie("access"))
             apiService.getItem('accounts', access['user_id']).then(
                 (response) => {
                     this.account_info = response

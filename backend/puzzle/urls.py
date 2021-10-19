@@ -1,6 +1,5 @@
 from django.urls import path, include
 from puzzle.views import *
-from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.routers import DefaultRouter
 
 
@@ -17,6 +16,8 @@ router.register(r'images', ImageView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('accounts/login/', CookieTokenObtainPairView.as_view()),
-    path('accounts/refresh/', CookieTokenRefreshView.as_view())
+    path('login', CookieTokenObtainPairView.as_view()),
+    path('logout', BlacklistRefreshView.as_view()),
+    path('refresh', CookieTokenRefreshView.as_view()),
+    path('dummy/', InterceptCookieView.as_view()),
 ]
