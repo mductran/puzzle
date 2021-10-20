@@ -69,13 +69,12 @@ export default {
 	},
 	methods: {
 		login() {
-			apiService.post('login/', { 'username': this.username, 'password': this.password }).then(
+			apiService.post('login', { 'username': this.username, 'password': this.password }).then(
 				(response) => {
 					if (response.status == 200) {
 						var userId = apiService.parseJwt(response.data['access'])['user_id']
-						apiService.getItem('accounts', userId).then(
+						apiService.getItem('accounts', userId, response.data['access']).then(
 							(response) => {
-								console.log(response['user']['username'])
 								this.username = response['username']
 							}
 						)

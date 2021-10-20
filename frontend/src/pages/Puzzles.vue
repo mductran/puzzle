@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	name: "Puzzle",
+	name: "Puzzles",
 	data() {
 		return {
 

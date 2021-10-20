@@ -45,7 +45,6 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <v-divider></v-divider>
                 <v-row>
                     <p id="trademark"><a href="localhost:8080">© 2021 thuzzle.com</a>. All Rights Reserved</p>
                 </v-row>
