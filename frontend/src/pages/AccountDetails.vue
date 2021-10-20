@@ -19,11 +19,12 @@ export default {
     },
     methods: {
         getCurrentUser() {
-            let access = apiService.parseJwt(cookieUtils.getCookie("access"))
-            apiService.getItem('accounts', access['user_id']).then(
+            const accessToken = cookieUtils.getCookie("accessToken")
+            const userId = apiService.parseJwt(accessToken)['user_id']
+
+            apiService.getItem('accounts', userId, accessToken).then(
                 (response) => {
                     this.account_info = response
-                    console.log(this.account_info)
                 }
             )
         }

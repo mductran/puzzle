@@ -5,9 +5,22 @@ const baseURL = 'http://localhost:8000/';
 export class APIService {
     constructor(){}
 
-    getItems(endPoint, page=1) {
+    getItems(endPoint, page=1, accessToken="") {
         const url = baseURL + endPoint + "?page=" + page;
-        
+
+        if (accessToken){
+            const config = {
+                headers: {
+                    "Authorization": "Bearer " + accessToken,
+                }
+            }
+            return axios.get(url, config).then(
+                response => {
+                    return response.data
+                }
+            )
+        }
+
         return axios.get(url).then(
             response => {
                 return response.data
@@ -15,9 +28,22 @@ export class APIService {
         )
     }
 
-    getItem(endPoint, pk) {
+    getItem(endPoint, pk, accessToken="") {
         const url = baseURL + endPoint + "/" + pk;
 
+        if (accessToken){
+            const config = {
+                headers: {
+                    "Authorization": "Bearer " + accessToken,
+                }
+            }
+            return axios.get(url, config).then(
+                response => {
+                    return response.data
+                }
+            )
+        }        
+
         return axios.get(url).then(
             response => {
                 return response.data
@@ -25,14 +51,27 @@ export class APIService {
         )
     }
 
-    post(endPoint, payload) {
+    post(endPoint, payload, token="") {
         const url = baseURL + endPoint
-		let config = {
-			withCredentials: true,
-			credentials: 'include'
-		}	
 
-        return axios.post(url, payload, config).then(
+        if (token) {
+            const config = {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+            return axios.post(url, payload, config).then(
+                response => {
+                    return response
+            }
+            ).catch (
+                error => {
+                    return error.response
+                }
+            )
+        }
+
+        return axios.post(url, payload).then(
             response => {
                 return response
         }
@@ -43,6 +82,13 @@ export class APIService {
         )
     }
 
+    refresh() {
+        const url = baseURL + "refresh"
+        const config = {
+            withCredentials: true,
+        }
+        return axios.post(url, config)
+    }
 
     parseJwt (token) {
         var base64Url = token.split('.')[1]
@@ -50,7 +96,7 @@ export class APIService {
         var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
         }).join(''))
-    
+
         return JSON.parse(jsonPayload);
     }
 }

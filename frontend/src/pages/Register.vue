@@ -1,6 +1,6 @@
 <template>
 <v-form lazy-validation>
-    <h1>Create your account</h1>
+    <!-- <h1>Create your account</h1> -->
     <v-text-field 
         v-model="username" 
         :error-messages="usernameErrors" 
@@ -18,20 +18,26 @@
         @blur="$v.email.$touch()"
     ></v-text-field>
     <v-text-field 
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         v-model="password1" 
-        :error-messages="password1Errors" 
-        label="password" 
+        :error-messages="password1Errors"
+        :type="show1 ? 'text': 'password'"
+        label="password"
         required 
         @input="$v.password1.$touch()"
         @blur="$v.password1.$touch()"
+        @click:append="show1 = !show1"
     ></v-text-field>
-    <v-text-field 
+    <v-text-field
+        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
         v-model="password2" 
-        :error-messages="password2Errors" 
-        label="re-enter password" 
+        :error-messages="password2Errors"
+        :type="show2 ? 'text': 'password'"
+        label="re-enter password"
         required 
         @input="$v.password2.$touch()"
         @blur="$v.password2.$touch()"
+        @click:append="show2 = !show2"
     ></v-text-field>
     <br>
     <v-btn class="mr-4" @click.stop="validate">
@@ -46,11 +52,11 @@ import Vuelidate from 'vuelidate'
 import { validationMixin } from 'vuelidate'
 import { required, minLength, email, sameAs, helpers } from 'vuelidate/lib/validators'
 
-// import { APIService } from '../utils/APIService'
+import { APIService } from '../utils/APIService'
 
 Vue.use(Vuelidate);
 
-// const apiService = new APIService()
+const apiService = new APIService()
 
 const containUpper = helpers.regex("containUpper", /[A-Z]/)
 const containLower = helpers.regex("containLower", /[a-z]/)
@@ -95,7 +101,6 @@ export default {
             if (!this.$v.password1.$dirty) return errors
             !this.$v.password1.required && errors.push('This field is required.')
             !this.$v.password1.minLength && errors.push('Must contain at least 8 characters.')            
-            console.log(this.$v.password1)
             !this.$v.password1.containUpper && errors.push('Your password must contain at least one uppercase letter')
             !this.$v.password1.containLower && errors.push('Your password must contain at least one lowercase letter')
             !this.$v.password1.containSpecialChars && errors.push('Your password must contain at least one special characters')
@@ -117,11 +122,30 @@ export default {
             email: "",
             password1: "",
             password2: "",
+            show1: false,
+            show2: false,
         }
     },
     methods: {
         validate() {
-            console.log(this.$refs)
+            const payload = {
+                "user": {
+                    "username": this.username,
+                    "email": this.email,
+                    "password": this.password1,
+                },
+                "profile": "reg"
+            }
+            apiService.post("accounts/", payload).then(
+                (response) => {
+                    if (response.status == 201) {
+                        alert("Account created")
+                    }
+                    else {
+                        alert("Re-enter the form")
+                    }
+                }
+            )
         }
     },
     mounted() {

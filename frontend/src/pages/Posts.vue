@@ -30,7 +30,7 @@ require ("../assets/styles/postspage.css")
 const apiService = new APIService()
 
 export default {
-    name: "PostsPage",
+    name: "Posts",
     components: {
         Post,
     },
