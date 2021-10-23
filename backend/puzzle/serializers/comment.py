@@ -3,11 +3,11 @@ from puzzle.models import Comment
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author_name = serializers.SerializerMethodField()
-
-    def get_author_name(self, obj):
-        return obj.author.user.username
-
-    class Meta:
+    class Meta: 
         model = Comment
-        fields = ["id", "content", "created", "updated", "author_name"]
+        fields = ["id", "content", "created", "updated", "author_id", "post_id"]
+
+    def create(self, validated_data):
+        print('\nVALIDATED DATA: ', validated_data)
+        comment_instance = Comment.objects.create(**validated_data)
+        return comment_instance

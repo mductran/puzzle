@@ -30,7 +30,8 @@ DEBUG = True
 APPEND_SLASH = True
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'localhost',
+    '127.0.0.1',
 ]
 
 CORS_ALLOWED_ORIGINS = [
