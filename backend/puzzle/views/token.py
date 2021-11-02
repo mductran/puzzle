@@ -19,21 +19,37 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
 class CookieTokenObtainPairView(TokenObtainPairView):
   def finalize_response(self, request, response, *args, **kwargs):
     if response.data.get('refresh'):
-        cookie_max_age = 3600 * 24 * 0.5  # 12 hours
+        refresh_max_age = 60 * 60 * 12  # 12 hours
         response.set_cookie(
-            'refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True)
+            'refresh_token', response.data['refresh'], max_age=refresh_max_age, httponly=True)
         del response.data['refresh']
+    if response.data.get('access'):
+        response.set_cookie(
+            'access_token', response.data['access'], httponly=False)
+
+    response["Access-Control-Allow-Headers"] = "Set-Cookie"
+    response["Access-Control-Allow-Origin"] = "http://localhost:8080"
+    response["Access-Control-Expose-Headers"] = "Set-Cookie"
+
     return super().finalize_response(request, response, *args, **kwargs)
 
 
 class CookieTokenRefreshView(TokenRefreshView):
     serializer_class = CookieTokenRefreshSerializer
-    
+
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
-            cookie_max_age = 3600 * 24 * 0.5  # 12 hours
+            # access_max_age =  60 * 5
+            refresh_max_age = 60 * 60 * 12  # 12 hours
             response.set_cookie(
-                'refresh_token', response.data['refresh'], max_age=cookie_max_age, httponly=True)
+                'refresh_token', response.data['refresh'], max_age=refresh_max_age, httponly=True)
+            response.set_cookie('access_token', response.data['access'])
             del response.data['refresh']
+        if response.data.get('access'):
+            response.set_cookie('access_token', response.data['access'])
+
+        response["Access-Control-Allow-Origin"] = "http://localhost:8080"
+        response["Access-Control-Allow-Headers"] = "Set-Cookie"
+        response["Access-Control-Expose-Headers"] = "Set-Cookie"
+
         return super().finalize_response(request, response, *args, **kwargs)
-    serializer_class = CookieTokenRefreshSerializer

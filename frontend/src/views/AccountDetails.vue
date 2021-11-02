@@ -22,7 +22,7 @@ export default {
             const accessToken = cookieUtils.getCookie("accessToken")
             const userId = apiService.parseJwt(accessToken)['user_id']
 
-            apiService.getItem('accounts', userId, accessToken).then(
+            apiService.getItem('accounts', userId).then(
                 (response) => {
                     this.account_info = response
                 }

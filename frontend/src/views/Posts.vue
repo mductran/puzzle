@@ -1,15 +1,33 @@
 <template>
-    <v-container>
+    <v-container class="page-container">
+
+        <v-card>
+            <v-text-field 
+                label="What's puzzling you?" 
+                v-model="newPost" 
+                hide-details 
+                counter="250"/>
+            <span>
+                <v-btn text style="width: 50%;" @click.prevent="todo">Add image</v-btn>
+                <v-btn text style="width: 50%;" @click.prevent="post">Share</v-btn>
+            </span>
+        </v-card>
+
         <v-responsive class="justify-center">
             <div v-for="post in posts" :key="post.id">
                 <Post v-bind:postContent="post"/>
-            </div>    
+            </div>
         </v-responsive>
 
         <v-spacer></v-spacer>
 
-        <v-pagination v-model="currentPage" :length="totalPages" :total-visible="7" color="#42A5F5" @input="handlePagination" id="pagination">
-        </v-pagination>
+        <v-pagination 
+            v-model="currentPage" 
+            :length="totalPages" 
+            :total-visible="7" 
+            color="#42A5F5" 
+            @input="handlePagination" 
+            id="pagination"/>
     </v-container> 
 </template>
 
@@ -19,9 +37,7 @@
 
 
 <script>
-import "vuetify/dist/vuetify.min.css"
-
-import {APIService} from '../utils/APIService'
+import { APIService } from '../utils/APIService'
 import Post from '../components/Post.vue'
 
 require ("../assets/styles/postspage.css")
@@ -40,6 +56,7 @@ export default {
             numberOfPosts: 0,
             totalPages: 0,
             currentPage: 1,
+            newPost: "",
         }
     },
     methods: {
@@ -62,6 +79,21 @@ export default {
             this.getPosts()
             window.scrollTo({top: 0, behavior: "smooth"})
         },
+        todo() {
+            alert("this function is not availale")
+        },
+        share() {
+            const payload = {
+
+            }
+            apiService.post('posts/', payload).then(
+                (response) => {
+                    if (response.status == 201){
+                        this.posts
+                    }
+                }
+            )
+        }
     },
     mounted(){
         this.onResize()

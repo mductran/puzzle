@@ -1,76 +1,146 @@
 <template>
 	<div name="app">
 		<v-app>
-			<Header/>
-			<div class="page-container">
-				<component :is="page"></component>			
-			</div>
+			<header>
+				<v-toolbar dense class="fixed-bar" id="navbar">
+					<v-btn plain class="logo-btn">
+						<v-img
+							contain src="./assets/thuzzle-logo.png"
+							:max-width="logoWidth"
+							:max-height="logoHeight"
+							@click="logoClick"/>
+					</v-btn>
+					
+					<v-spacer/>
+
+					<SearchBar v-bind:height="logoHeight"/>
+
+					<v-spacer/>
+
+					<router-link to="/trade">
+						<v-btn text>Trade</v-btn>
+					</router-link>
+					<router-link to="/puzzle">
+						<v-btn text>Puzzle</v-btn>
+					</router-link>
+					
+					<v-btn text v-if="!loggedIn" @click.stop="revealLogin"> Sign In </v-btn>
+					<v-menu v-if="loggedIn" offset-y bottom open-on-hover>
+						<template v-slot:activator="{ on }">
+							<v-btn text v-on="on"> {{ getUsername() }} </v-btn>
+						</template>
+						<v-list>
+							<v-list-item text>
+								<router-link to="/account">
+									Your Profile
+								</router-link>
+							</v-list-item>
+							<v-list-item text @click="logout">
+								Logout
+							</v-list-item>
+						</v-list>
+					</v-menu>
+				</v-toolbar>
+			</header>
+
+			<router-view/>
+
 			<Login v-bind:show="overlay"/>
+
 			<Footer/>
+
 		</v-app>
 	</div>
 </template>
 
+<style>
+@import "./assets/styles/header.css";
+@import "./assets/styles/app.css";
+</style>
+
 <script>
-import EventBus from './components/EventBus'
-import Login from './components/Login.vue'
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
-
-import PostsPage from './pages/Posts.vue'
-import Puzzle from './pages/Puzzles.vue'
-import Inventory from './pages/Inventory.vue'
-import Trade from './pages/Trade.vue'
-import YourStore from './pages/YourStore.vue'
-import AccountDetail from './pages/AccountDetails.vue'
-import Register from './pages/Register.vue'
-
-import Vue from 'vue'
 import Vuetify from 'vuetify'
-import "vuetify/dist/vuetify.min.css"
+import Vue from 'vue'
 
-require("./assets/styles/app.css")
+import { APIService } from './utils/APIService'
+import { CookiesUtils } from './utils/CookiesUtils'
+import EventBus from "./utils/EventBus"
+
+import Login from './components/Login.vue'
+import Footer from './components/Footer.vue'
+import SearchBar from './components/SearchBar.vue'
 
 Vue.use(Vuetify)
+const apiService = new APIService()
+const cookiesUtils = new CookiesUtils()
 
-export default {
-	name: 'App',
+export default ({
+	name: "App",
 	components: {
-		Header,
-		Footer,
-		PostsPage,
 		Login,
-		Puzzle,
-		Trade,
-		YourStore,
-		AccountDetail,
-		Inventory,
-		Register,
+		Footer,
+		SearchBar,
 	},
 	data: () => ({
+		logoHeight: 0,
+		logoWidth: 0,
+		loggedIn: false,
 		overlay: false,
-		page: "PostsPage"
+		username: "",
 	}),
 	methods: {
-		revealLoginOverlay() {
+		logoClick() {
+			window.location.href = "http://localhost:8080/"
+		},
+		resizeLogo() {
+			this.logoHeight = document.getElementById("navbar").offsetHeight
+			this.logoWidth = document.getElementById("navbar").offsetWidth * 0.1
+		},
+		logout() {
+			this.loggedIn = false
+			cookiesUtils.deleteCookie("access_token")
+			cookiesUtils.deleteCookie("refresh_token")
+			cookiesUtils.deleteCookie("username")
+			window.location.href = "http://localhost:8080/"
+		},
+		revealLogin() {
 			this.overlay = !this.overlay
 		},
-		swapPage(newPage) {
-			this.page = newPage
+		userLoggedIn() {
+			this.overlay = !this.overlay
+			this.loggedIn = !this.loggedIn
 		},
-		closeLoginBox() {
-			this.overlay = false
-		}
+		getUsername() {
+			return cookiesUtils.getCookie('username')
+		},
+		checkLogin() {
+			const accessToken = cookiesUtils.getCookie("access_token")
+			if (accessToken) {
+				console.log("access token", accessToken)
+				console.log("validate token", apiService.validateToken(accessToken))
+				if (apiService.validateToken(accessToken)){
+					this.loggedIn = true
+					const token = cookiesUtils.getCookie('access_token')
+					console.log('new token', token)
+					console.log('actually new token', token == accessToken)
+					this.username = apiService.parseJwt(token)['username']
+				}
+			}
+			if (this.loggedIn == false) {
+				alert("you've been logged out, please sign in again")
+			}
+		}		
 	},
 	mounted() {
-		EventBus.$on("revealLoginOverlay", this.revealLoginOverlay)
-		EventBus.$on("loggedInSuccessfully", this.closeLoginBox)
-		EventBus.$on("swapPage", this.swapPage)
+		this.checkLogin()
+		console.log('logged in status', this.loggedIn)
+		this.resizeLogo()
+		EventBus.$on("revealLoginOverlay", this.revealLogin)
+		EventBus.$on("loggedInSuccessfully", this.userLoggedIn)
 	},
 	destroyed() {
 		EventBus.off("revealLoginOverlay")
 		EventBus.off("loggedInSuccessfully")
-		EventBus.off("swapPage")
 	},
-}
+})
 </script>

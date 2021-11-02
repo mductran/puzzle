@@ -1,5 +1,5 @@
 <template>
-<v-form lazy-validation>
+<v-form lazy-validation class="page-container">
     <!-- <h1>Create your account</h1> -->
     <v-text-field 
         v-model="username" 
@@ -46,10 +46,14 @@
 </v-form>
 </template>
 
+<style scoped>
+@import "../assets/styles/register.css";
+</style>
+
 <script>
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
-import { validationMixin } from 'vuelidate'
+import validationMixin from 'vuelidate'
 import { required, minLength, email, sameAs, helpers } from 'vuelidate/lib/validators'
 
 import { APIService } from '../utils/APIService'
@@ -139,7 +143,7 @@ export default {
             apiService.post("accounts/", payload).then(
                 (response) => {
                     if (response.status == 201) {
-                        alert("Account created")
+                        alert("Account created. Redirect in 3..")
                     }
                     else {
                         alert("Re-enter the form")

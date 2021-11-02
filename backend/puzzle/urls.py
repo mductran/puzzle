@@ -19,5 +19,4 @@ urlpatterns = [
     path('login', CookieTokenObtainPairView.as_view()),
     path('logout', BlacklistRefreshView.as_view()),
     path('refresh', CookieTokenRefreshView.as_view()),
-    path('dummy/', InterceptCookieView.as_view()),
 ]
