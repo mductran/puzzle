@@ -26,7 +26,6 @@ class CommentView(ModelViewSet):
                 data['author_id'] = author.user.id
                 # data['author_name'] = author.user.username
                 Comment.objects.create(**data)
-                response = Response(data, status=status.HTTP_201_CREATED)
-                return response
+                return Response(data, status=status.HTTP_201_CREATED)
             except (Account.DoesNotExist, Post.DoesNotExist):
                 return Response(status=status.HTTP_400_BAD_REQUEST)

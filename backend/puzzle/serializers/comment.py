@@ -13,4 +13,4 @@ class CommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print('\nVALIDATED DATA: ', validated_data)
         comment_instance = Comment.objects.create(**validated_data)
-        return comment_instance
+        return comment_instance.validated_data

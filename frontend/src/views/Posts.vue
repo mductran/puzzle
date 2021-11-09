@@ -9,7 +9,7 @@
                 counter="250"/>
             <span>
                 <v-btn text style="width: 50%;" @click.prevent="todo">Add image</v-btn>
-                <v-btn text style="width: 50%;" @click.prevent="post">Share</v-btn>
+                <v-btn text style="width: 50%;" @click.prevent="share">Share</v-btn>
             </span>
         </v-card>
 
@@ -84,18 +84,22 @@ export default {
         },
         share() {
             const payload = {
-
+                "author_id": apiService.getCurrentUser(),
+                "content": this.newPost,
             }
+            console.log(payload)
             apiService.post('posts/', payload).then(
                 (response) => {
                     if (response.status == 201){
-                        this.posts
+                        this.posts.unshift(response)
+                        console.log(this.posts)
+                        this.newPost = ""
                     }
                 }
             )
-        }
+        },
     },
-    mounted(){
+    mounted(){217
         this.onResize()
         this.getPosts()
     },

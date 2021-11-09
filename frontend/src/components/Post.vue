@@ -59,7 +59,7 @@ export default ({
             const payload = {
                 "content": this.userComment,
                 "post_id": this.postContent.id,
-                "author_id": apiService.getCurrentUser()['user_id']
+                "author_id": apiService.getCurrentUser()
             }
             apiService.post('comments/', payload).then(
                 (response) => {

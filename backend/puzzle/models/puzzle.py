@@ -45,4 +45,4 @@ class Puzzle(models.Model):
 
     theme = models.ForeignKey("Theme", on_delete=models.CASCADE)
     brand = models.ForeignKey('Brand', on_delete=models.CASCADE)
-    image = models.URLField()
+    image = models.URLField(blank=True, null=True)

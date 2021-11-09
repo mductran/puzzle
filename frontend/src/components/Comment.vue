@@ -49,7 +49,6 @@ export default ({
         },
         currentUserIsAuthor(author_id) {
             const currentUser = apiService.getCurrentUser()
-            console.log('is author: ', currentUser.user_id == author_id)
             return currentUser.user_id == author_id
         }
     },

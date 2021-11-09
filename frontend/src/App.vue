@@ -116,24 +116,18 @@ export default ({
 		checkLogin() {
 			const accessToken = cookiesUtils.getCookie("access_token")
 			if (accessToken) {
-				console.log("access token", accessToken)
-				console.log("validate token", apiService.validateToken(accessToken))
 				if (apiService.validateToken(accessToken)){
 					this.loggedIn = true
-					const token = cookiesUtils.getCookie('access_token')
-					console.log('new token', token)
-					console.log('actually new token', token == accessToken)
-					this.username = apiService.parseJwt(token)['username']
+					this.username = apiService.parseJwt(accessToken)['username']
 				}
 			}
 			if (this.loggedIn == false) {
-				alert("you've been logged out, please sign in again")
+				// alert("you've been logged out, please sign in again")
 			}
 		}		
 	},
 	mounted() {
 		this.checkLogin()
-		console.log('logged in status', this.loggedIn)
 		this.resizeLogo()
 		EventBus.$on("revealLoginOverlay", this.revealLogin)
 		EventBus.$on("loggedInSuccessfully", this.userLoggedIn)

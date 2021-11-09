@@ -19,15 +19,12 @@ export class APIService {
     validateToken(token) {
         const accessToken = this.parseJwt(token)
         if (Date.now()/1000 <= accessToken["exp"]) {
-            console.log('not expired')
             return true
         }
         else{
-            console.log('expired, refreshing')
             this.post('refresh').then(
                 (response) => {
                     const refreshSuccessfully = (response.status == 200)
-                    console.log("refresh response", refreshSuccessfully)
                     return refreshSuccessfully
                 }
             )
@@ -36,10 +33,12 @@ export class APIService {
     }
 
     getCurrentUser() {
-        if (this.validateToken("access_token")) {
-            const token = cookiesUtils.getCookie("access_token")
-            const dtoken = this.parseJwt(token)
-            return dtoken
+        const accessToken = cookiesUtils.getCookie("access_token")
+        if (accessToken){
+            if (this.validateToken(accessToken)) {
+                const dtoken = this.parseJwt(accessToken)
+                return dtoken.user_id
+            }
         }
         else {
             return {}
@@ -48,14 +47,14 @@ export class APIService {
 
     async getItems(endpoint, page=1) {
         const url = baseURL + endpoint + "?page=" + page
-        const accessToken = cookiesUtils.getCookie("accessToken")
+        const accessToken = cookiesUtils.getCookie("access_token")
         const config = {
             method: 'GET',
             credentials: 'include',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': accessToken!=null ? accessToken : '',
+                'Authorization': accessToken!=null ? 'Bearer ' + accessToken : '',
             },
             redirect: "follow",
         }
@@ -66,13 +65,13 @@ export class APIService {
 
     async getItem(endpoint, pk) {
         const url = baseURL + endpoint + "/" + pk
-        const accessToken = cookiesUtils.getCookie("accessToken")
+        const accessToken = cookiesUtils.getCookie("access_token")
         const config = {
             method: "GET",
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': accessToken!=null ? accessToken : '',
+                'Authorization': accessToken!=null ? 'Bearer ' + accessToken : '',
             },
         }
         const response = await fetch(url, config)
@@ -81,14 +80,14 @@ export class APIService {
 
     async post(endpoint, data={}){
         const url = baseURL + endpoint
-        const accessToken = cookiesUtils.getCookie("accessToken")
+        const accessToken = cookiesUtils.getCookie("access_token")
         const response = await fetch(url, {
             method: "POST",
             mode: "cors",
             credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': accessToken!=null ? accessToken : '',
+                'Authorization': accessToken!=null ? 'Bearer ' + accessToken : '',
             },
             redirect: "follow",
             body: JSON.stringify(data)
