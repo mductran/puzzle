@@ -4,31 +4,34 @@
 			<header>
 				<v-toolbar dense class="fixed-bar" id="navbar">
 					<v-btn plain class="logo-btn">
-						<v-img
-							contain src="./assets/thuzzle-logo.png"
-							:max-width="logoWidth"
-							:max-height="logoHeight"
-							@click="logoClick"/>
+						<v-img contain src="./assets/thuzzle-logo.png" :max-width="logoWidth" :max-height="logoHeight" @click="logoClick" />
 					</v-btn>
-					
+	
 					<v-spacer/>
-
-					<SearchBar v-bind:height="logoHeight"/>
-
+	
+					<div id="search-bar">
+						<v-text-field v-model="query" id="search-field" />
+						<router-link :to="{name: 'SearchResult', params: {...constructParams()}, query: {'query': query}}">
+							<v-btn text id="search-btn">
+								Search
+							</v-btn>
+						</router-link>
+					</div>
+	
 					<v-spacer/>
-
+	
 					<router-link to="/trade">
 						<v-btn text>Trade</v-btn>
 					</router-link>
 					<router-link to="/puzzle">
 						<v-btn text>Puzzle</v-btn>
 					</router-link>
-					
+	
 					<v-btn text v-if="!loggedIn" @click.stop="revealLogin"> Sign In </v-btn>
 					<v-menu v-if="loggedIn" offset-y bottom open-on-hover>
 						<template v-slot:activator="{ on }">
-							<v-btn text v-on="on"> {{ getUsername() }} </v-btn>
-						</template>
+										<v-btn text v-on="on"> {{ getUsername() }} </v-btn>
+</template>
 						<v-list>
 							<v-list-item text>
 								<router-link to="/account">
@@ -56,6 +59,7 @@
 <style>
 @import "./assets/styles/header.css";
 @import "./assets/styles/app.css";
+@import "./assets/styles/searchbar.css";
 </style>
 
 <script>
@@ -68,7 +72,6 @@ import EventBus from "./utils/EventBus"
 
 import Login from './components/Login.vue'
 import Footer from './components/Footer.vue'
-import SearchBar from './components/SearchBar.vue'
 
 Vue.use(Vuetify)
 const apiService = new APIService()
@@ -79,7 +82,6 @@ export default ({
 	components: {
 		Login,
 		Footer,
-		SearchBar,
 	},
 	data: () => ({
 		logoHeight: 0,
@@ -87,6 +89,7 @@ export default ({
 		loggedIn: false,
 		overlay: false,
 		username: "",
+		query: "",
 	}),
 	methods: {
 		logoClick() {
@@ -116,7 +119,7 @@ export default ({
 		checkLogin() {
 			const accessToken = cookiesUtils.getCookie("access_token")
 			if (accessToken) {
-				if (apiService.validateToken(accessToken)){
+				if (apiService.validateToken(accessToken)) {
 					this.loggedIn = true
 					this.username = apiService.parseJwt(accessToken)['username']
 				}
@@ -124,7 +127,13 @@ export default ({
 			if (this.loggedIn == false) {
 				// alert("you've been logged out, please sign in again")
 			}
-		}		
+		},
+		constructParams() {
+			return {
+				'content': this.query,
+				'author__user__username': '',
+			}
+		},
 	},
 	mounted() {
 		this.checkLogin()

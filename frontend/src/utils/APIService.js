@@ -94,4 +94,21 @@ export class APIService {
         })
         return {...await(response.json()), 'status': response.status}
     }
+
+    async filter(endpoint, params) {
+        const paramString = new URLSearchParams(params).toString()
+        const url = baseURL + endpoint + '/?' + paramString
+        const accessToken = cookiesUtils.getCookie("access_token")
+        const response = await fetch(url, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": accessToken!=null ? "Bearer " + accessToken : "",
+            },
+            redirect: "follow",
+        })
+        return {...await(response.json()), 'status': response.status}
+    }
 }

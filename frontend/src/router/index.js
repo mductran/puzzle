@@ -5,8 +5,8 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: '/blogs',
+    name: 'Blogs',
     component: () => import('../views/Posts.vue')
   },
   {
@@ -26,7 +26,7 @@ const routes = [
   },
   {
     path: '/puzzle',
-    name: "Puzzle",
+    name: "Puzzles",
     component: () => import('../views/Items.vue')
   },
   {
@@ -40,9 +40,9 @@ const routes = [
     component: () => import('../views/AccountDetails.vue')
   },
   {
-    path: '/post/:query',
-    name: 'PostFilter',
-    component: () => import('../views/PostFiltered.vue')
+    path: '/search-result',
+    name: 'SearchResult',
+    component: () => import('../views/SearchResult.vue')
   }
 ]
 

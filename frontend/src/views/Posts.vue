@@ -40,9 +40,6 @@
 import { APIService } from '../utils/APIService'
 import Post from '../components/Post.vue'
 
-require ("../assets/styles/postspage.css")
-
-
 const apiService = new APIService()
 
 export default {
