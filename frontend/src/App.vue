@@ -12,9 +12,6 @@
 					<div id="search-bar">
 						<v-text-field v-model="query" id="search-field" />
 						<router-link :to="{name: 'SearchResult', params: {...constructParams()}, query: {'query': query}}">
-							<v-btn text id="search-btn">
-								Search
-							</v-btn>
 						</router-link>
 					</div>
 	
@@ -30,8 +27,7 @@
 					<v-btn text v-if="!loggedIn" @click.stop="revealLogin"> Sign In </v-btn>
 					<v-menu v-if="loggedIn" offset-y bottom open-on-hover>
 						<template v-slot:activator="{ on }">
-										<v-btn text v-on="on"> {{ getUsername() }} </v-btn>
-</template>
+						<v-btn text v-on="on"> {{ getUsername() }} </v-btn>
 						<v-list>
 							<v-list-item text>
 								<router-link to="/account">

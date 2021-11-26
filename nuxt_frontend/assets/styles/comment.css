@@ -1,0 +1,10 @@
+.comment-card {
+    outline: 1px solid rgba(0,0,0,.125);
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.comment-title {
+    display: flex;
+    justify-content: space-between;
+}

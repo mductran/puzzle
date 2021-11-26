@@ -1,0 +1,16 @@
+.login-card {
+    width: 30%;
+    margin: auto;
+    margin-top: 5%;
+    padding: 10px;
+}
+
+.input-field {
+    width: 95%;
+    margin: auto;
+}
+
+.input-btn {
+    width: 49%;
+    margin: auto;
+}
