@@ -20,14 +20,21 @@ import Post from '../components/Post.vue'
 Vue.use(Vuetify)
 
 export default {
+    data: () => {
+    return {
+    }
+  },
   components: {
     Post
   },
-  layout(context) {
-    return 'blog'
-  },
   mounted() {
-    this.$store.dispatch("blogs/getPosts")
+    this.$store.dispatch("blogs/getPosts")  
+  },
+  created() {
+    if (Object.keys(this.$store.state.users.currentUser).length > 0) {
+      this.$nuxt.setLayout('user')
+    }
+    this.$nuxt.setLayout('anonymous')
   }
 }
 

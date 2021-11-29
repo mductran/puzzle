@@ -6,7 +6,6 @@ export const plugins = [
 
 const getDefaultState = () => {
   return {
-    loggedIn: false,
     currentUser: {},
     errors: [],
   }
@@ -52,13 +51,15 @@ export const mutations = {
     sessionStorage.clear()
   },
 
-  setLoggedIn(state) {
-    state.loggedIn = !state.loggedIn
-  },
-
   pushError(state, error) {
     state.errors.push(error)
   },
+}
+
+export const getters = {
+  getCurrentUser(state) {
+    return state.currentUser
+  }
 }
 
 // export const users = {

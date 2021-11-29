@@ -25,8 +25,10 @@
         class="transition-fast-in-fast-out comment-section"
       >
         <Comment v-bind:commentContent="postContent.comments" />
-        <v-text-field autocomplete="off" v-model="userComment" />
-        <v-btn @click.stop.prevent="submitComment"> Submit </v-btn>
+        <div class="submit-comment" v-if="userLoggedIn">
+          <v-text-field autocomplete="off" v-model="userComment" />
+          <v-btn @click.stop.prevent="submitComment"> Submit </v-btn>
+        </div>
       </v-card>
     </v-expand-transition>
   </v-card>
@@ -54,17 +56,35 @@ export default {
     return {
       reveal: false,
       userComment: "",
+      userLoggedIn: Object.keys(this.$store.state.users.currentUser).length > 0
     };
   },
   methods: {
     getMoment(datetime) {
       return moment(datetime).fromNow();
     },
-    submitComment() {
+    async submitComment() {
       const payload = {
         "content": this.userComment,
         "post_id": this.postContent.id,
         "author_id": this.$store.state.users.id
+      }
+      const url = "http://localhost:3000/comments/"
+      const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          // "Authorization": 
+        },
+        redirect: "follow",
+        body: JSON.stringify(payload)
+      })
+      const result = {...await(response.json()), 'status': response.status}
+      if (result.status == 201) {
+        this.postContent.comments.push(result)
+        this.userComment = ""
       }
     }
   },

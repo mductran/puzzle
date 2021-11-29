@@ -45,7 +45,7 @@ export default ({
             alert("menu loaded")
         },
         currentUserIsAuthor(author_id) {
-            return this.$store.state.users.id == author_id
+            return this.$store.state.users.currentUser.id == author_id
         }
     },
     mounted() {

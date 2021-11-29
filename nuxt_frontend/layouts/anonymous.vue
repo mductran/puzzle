@@ -21,12 +21,12 @@
 	
         <v-spacer/>
 
-        <router-link to="/trade">
+        <!-- <router-link to="/trade">
           <v-btn text>Trade</v-btn>
         </router-link>
         <router-link to="/puzzle">
           <v-btn text>Puzzle</v-btn>
-        </router-link>
+        </router-link> -->
 
         <v-btn text> Sign In </v-btn>
 
