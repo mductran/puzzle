@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="puzzle-grid-container">
-            <div v-for="item in items" :key="item.id">
+            <div v-for="item in items" :key="'item_'+item.id">
                 <Puzzle v-bind:item="item"/>
             </div>
         </div>

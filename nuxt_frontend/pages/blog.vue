@@ -1,7 +1,7 @@
 <template>
     <v-container class="page-container">
       <v-responsive class="justify-center">
-        <div v-for="post in this.$store.state.blogs.posts" v-bind:key="post.id">
+        <div v-for="post in this.myPosts" v-bind:key="post.id">
           <Post v-bind:postContent="post"/>
         </div>
       </v-responsive>
@@ -13,6 +13,8 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Post from '../components/Post.vue'
@@ -20,21 +22,32 @@ import Post from '../components/Post.vue'
 Vue.use(Vuetify)
 
 export default {
-    data: () => {
+  layout(context) {
+    return "index"
+  },
+  data: () => {
     return {
+      layoutName: ""
     }
+  },
+  computed: {
+    ...mapGetters({
+      myPosts: "blogs/getPosts",
+      myTotalPages: "blogs/getTotalPages",
+      myCurrentPost: "blogs/getCurrentPost",
+      myCurrentPage: "blogs/getCurrentPage",
+    }) 
   },
   components: {
     Post
   },
-  mounted() {
-    this.$store.dispatch("blogs/getPosts")  
+  methods: {
+
   },
   created() {
-    if (Object.keys(this.$store.state.users.currentUser).length > 0) {
-      this.$nuxt.setLayout('user')
-    }
-    this.$nuxt.setLayout('anonymous')
+    this.$store.dispatch("blogs/getPosts")
+    // this.layoutName = Object.keys(this.$store.state.users.currentUser).length > 0  ? "user" : "anonymous"
+    // this.$nuxt.setLayout(this.layoutName)
   }
 }
 

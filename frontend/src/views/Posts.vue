@@ -14,7 +14,7 @@
         </v-card>
 
         <v-responsive class="justify-center">
-            <div v-for="post in posts" :key="post.id">
+            <div v-for="post in posts" :key="'post_'+post.id">
                 <Post v-bind:postContent="post"/>
             </div>
         </v-responsive>
@@ -84,7 +84,6 @@ export default {
                 "author_id": apiService.getCurrentUser(),
                 "content": this.newPost,
             }
-            console.log(payload)
             apiService.post('posts/', payload).then(
                 (response) => {
                     if (response.status == 201){

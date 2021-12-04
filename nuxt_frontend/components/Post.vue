@@ -25,7 +25,7 @@
         class="transition-fast-in-fast-out comment-section"
       >
         <Comment v-bind:commentContent="postContent.comments" />
-        <div class="submit-comment" v-if="userLoggedIn">
+        <div class="submit-comment" v-if="myLogin">
           <v-text-field autocomplete="off" v-model="userComment" />
           <v-btn @click.stop.prevent="submitComment"> Submit </v-btn>
         </div>
@@ -39,8 +39,9 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
 import Comment from "../components/Comment.vue";
-import moment, { relativeTimeThreshold } from "moment";
+import moment from "moment";
 
 export default {
   name: "Post",
@@ -56,8 +57,13 @@ export default {
     return {
       reveal: false,
       userComment: "",
-      userLoggedIn: Object.keys(this.$store.state.users.currentUser).length > 0
     };
+  },
+  computed: {
+    ...mapGetters({
+      myLogin: 'users/getLogin',
+      myCurrentUser: 'users/getCurrentUser'
+    })
   },
   methods: {
     getMoment(datetime) {
@@ -67,7 +73,7 @@ export default {
       const payload = {
         "content": this.userComment,
         "post_id": this.postContent.id,
-        "author_id": this.$store.state.users.id
+        "author_id": this.myCurrentUser.id
       }
       const url = "http://localhost:3000/comments/"
       const response = await fetch(url, {

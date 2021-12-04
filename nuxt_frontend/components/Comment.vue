@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="comment in commentContent" :key="comment.id" class="comment-card">
+        <div v-for="comment in commentContent" :key="'comment_'+comment.id" class="comment-card">
             <div class="comment-title">
                 <p> @{{ comment.author_name}} </p>
                 <v-icon v-if="currentUserIsAuthor(comment.author_id)" @click.prevent="loadMenu">
