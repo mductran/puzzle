@@ -55,6 +55,7 @@ export default {
   },
   methods: {
     swap(componentName) {
+      // TODO: switch to lazy load
       Object.keys(this.active).forEach(i => this.active[i] = false)
 
       if (componentName === "filter") {

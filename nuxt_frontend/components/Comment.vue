@@ -2,12 +2,12 @@
     <div>
         <div v-for="comment in commentContent" :key="'comment_'+comment.id" class="comment-card">
             <div class="comment-title">
-                <p> @{{ comment.author_name}} </p>
+                <p style="font-weight: bold;"> @{{ comment.author_name}} </p>
                 <v-icon v-if="currentUserIsAuthor(comment.author_id)" @click.prevent="loadMenu">
-                    three-vertical-dots
+                    mdi-dots-vertical
                 </v-icon>
             </div>
-            <p> {{ getMoment(comment.updated) }} </p>
+            <p class="comment-subdetails"> {{ getMoment(comment.updated) }} </p>
             <p> {{ comment.content }} </p>
         </div>
     </div>
@@ -18,10 +18,10 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-
 
 Vue.use(Vuetify)
 
@@ -37,6 +37,11 @@ export default ({
 
         }
     },
+    computed: {
+        ...mapGetters({
+            myCurrentUser: "users/getCurrentUser"
+        })
+    },
     methods: {
         getMoment(datetime) {
             return moment(datetime).fromNow();
@@ -45,11 +50,9 @@ export default ({
             alert("menu loaded")
         },
         currentUserIsAuthor(author_id) {
-            return this.$store.state.users.currentUser.id == author_id
+            console.log(author_id, this.myCurrentUser.id == author_id)
+            return this.myCurrentUser.id == author_id
         }
     },
-    mounted() {
-
-    }
 })
 </script>

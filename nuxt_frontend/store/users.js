@@ -20,6 +20,16 @@ const getDefaultState = () => {
   }
 }
 
+const parseJwt = (token) => {
+  var base64Url = token.split('.')[1]
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  }).join(''))
+
+  return JSON.parse(jsonPayload);
+}
+
 export const state = getDefaultState()
 
 export const actions = {
@@ -37,11 +47,16 @@ export const actions = {
       redirect: "follow",
       body: JSON.stringify(userCredentials)
     })
-    
+
     if (response.status == 200) {
-      commit("setCurrentUser", {
-        "username": userCredentials.username,
-      })
+      const result = {...await(response.json())}
+      const parsedAccess = parseJwt(result.access)
+      const currentUser = {
+        username: userCredentials.username,
+        id: parsedAccess.user_id,
+        exp: parsedAccess.exp
+      }
+      commit("setCurrentUser", currentUser)
     } 
     else if (response.status >= 400) {
       commit("pushError", response)
@@ -79,69 +94,3 @@ export const getters = {
     return state.login
   }
 }
-
-
-
-// export default new Vuex.Store({
-//   plugins: [
-//     createPersistedState()
-//   ],
-//   state: {
-//     login: false,
-//     currentUser: {},
-//     errors: [],
-//   },
-//   actions: {
-//     async login({ commit }, userCredentials) {
-
-//       const url = "http://localhost:8000/login"
-      
-//       const response = await fetch(url, {
-//         method: "POST",
-//         mode: "cors",
-//         credentials: "include",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         redirect: "follow",
-//         body: JSON.stringify(userCredentials)
-//       })
-      
-//       if (response.status == 200) {
-//         commit("setCurrentUser", {
-//           "username": userCredentials.username,
-//         })
-//       } 
-//       else if (response.status >= 400) {
-//         commit("pushError", response)
-//       }
-//     },
-
-//     async logout({ commit }) {
-//       commit("resetState")
-//     }
-//   },
-//   mutations: {
-//     setCurrentUser(state, user) {
-//       state.currentUser = user
-//       state.login = true
-//     },
-
-//     resetState(state) {
-//       Object.assign(state, getDefaultState())
-//       // wipe persistedState data
-//       sessionStorage.clear()
-//     },
-
-//     pushError(state, error) {
-//       state.errors.push(error)
-//     },    
-//   },
-//   getters: () => {
-//     return {
-//       getCurrentUser(state) {
-//         return state.currentUser
-//       }
-//     }
-//   }
-// })

@@ -1,11 +1,19 @@
 <template>
-    <v-container class="page-container">
-      <v-responsive class="justify-center">
-        <div v-for="post in this.myPosts" v-bind:key="post.id">
-          <Post v-bind:postContent="post"/>
-        </div>
-      </v-responsive>
-    </v-container>
+  <v-container class="page-container">
+    <v-card elevation="0">
+      <v-text-field
+        placeholder=" Share your puzzle"
+        v-model="postContent"
+        append-outer-icon="mdi-send"
+        @click:append-outer="sharePost"
+      />
+    </v-card>
+    <v-responsive class="justify-center">
+      <div v-for="post in this.myPosts" v-bind:key="post.id">
+        <Post v-bind:postContent="post" />
+      </div>
+    </v-responsive>
+  </v-container>
 </template>
 
 <style scoped>
@@ -13,22 +21,23 @@
 </style>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from "vuex";
 
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import Post from '../components/Post.vue'
+import Vue from "vue";
+import Vuetify from "vuetify";
+import Post from "../components/Post.vue";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 export default {
   layout(context) {
-    return "index"
+    return "index";
   },
   data: () => {
     return {
-      layoutName: ""
-    }
+      layoutName: "",
+      postContent: "",
+    };
   },
   computed: {
     ...mapGetters({
@@ -36,19 +45,24 @@ export default {
       myTotalPages: "blogs/getTotalPages",
       myCurrentPost: "blogs/getCurrentPost",
       myCurrentPage: "blogs/getCurrentPage",
-    }) 
+    }),
+    // ...mapState({
+    //   // myPosts: "blogs/posts",
+    //   myPosts: state => state.blogs.posts // https://github.com/nuxt/nuxt.js/issues/3709 why??
+    // })
   },
   components: {
-    Post
+    Post,
   },
   methods: {
-
+    sharePost() {
+      const payload = {
+        content: this.postContent,
+      };
+    },
   },
   created() {
-    this.$store.dispatch("blogs/getPosts")
-    // this.layoutName = Object.keys(this.$store.state.users.currentUser).length > 0  ? "user" : "anonymous"
-    // this.$nuxt.setLayout(this.layoutName)
-  }
-}
-
+    this.$store.dispatch("blogs/getPosts");
+  },
+};
 </script>

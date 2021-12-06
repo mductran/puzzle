@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import createPersistedState from 'vuex-persistedstate'
 
 export const plugins = [
@@ -72,9 +73,56 @@ export const actions = {
       commit("pushError", res)
     }
   },
+
+  async sharePost({ commit }, payload) {
+    const url = "http://localhost:8000/posts/"
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(payload)
+    })
+  },
+
+  async shareComment({ commit }, payload) {
+    const url = "http://localhost:8000/comments/";
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(payload),
+    });
+    const result = { ...(await response.json()), status: response.status };
+    if (result.status == 201) {
+      commit("shareComment", result)
+    }
+  }
 }
 
 export const mutations = {
+  shareComment(state, newComment) {
+    // https://stackoverflow.com/questions/40860592/vuex-getter-not-updating
+    var index = 0
+    while (index < state.posts.length) {
+      if (state.posts[index].id == newComment.post_id) {
+        break
+      }
+      index++
+    }
+    // deep copy
+    let updatedPost = JSON.parse(JSON.stringify(state.posts[index]))
+    updatedPost.comments.push(newComment)
+    Vue.set(state.posts, index, updatedPost)
+  },
+
   wipePost(state) {
     state.posts.length = 0
   },

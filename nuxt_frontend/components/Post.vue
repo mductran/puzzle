@@ -27,7 +27,7 @@
         <Comment v-bind:commentContent="postContent.comments" />
         <div class="submit-comment" v-if="myLogin">
           <v-text-field autocomplete="off" v-model="userComment" />
-          <v-btn @click.stop.prevent="submitComment"> Submit </v-btn>
+          <v-btn text @click.stop.prevent="submitComment"> Submit </v-btn>
         </div>
       </v-card>
     </v-expand-transition>
@@ -39,7 +39,7 @@
 </style>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 import Comment from "../components/Comment.vue";
 import moment from "moment";
 
@@ -61,40 +61,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      myLogin: 'users/getLogin',
-      myCurrentUser: 'users/getCurrentUser'
-    })
+      myLogin: "users/getLogin",
+      myCurrentUser: "users/getCurrentUser",
+    }),
   },
   methods: {
     getMoment(datetime) {
       return moment(datetime).fromNow();
     },
-    async submitComment() {
+    submitComment() {
       const payload = {
-        "content": this.userComment,
-        "post_id": this.postContent.id,
-        "author_id": this.myCurrentUser.id
-      }
-      const url = "http://localhost:3000/comments/"
-      const response = await fetch(url, {
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          // "Authorization": 
-        },
-        redirect: "follow",
-        body: JSON.stringify(payload)
-      })
-      const result = {...await(response.json()), 'status': response.status}
-      if (result.status == 201) {
-        this.postContent.comments.push(result)
-        this.userComment = ""
-      }
-    }
-  },
-  mounted() {
+        content: this.userComment,
+        post_id: this.postContent.id,
+        author_id: this.myCurrentUser.id,
+      };
+      this.$store.dispatch("blogs/shareComment", payload);
+      this.userComment = "";
+    },
   },
 };
 </script>
