@@ -1,0 +1,20 @@
+.cat-bar {
+    margin: auto;
+    margin-top:50px;
+    width: 40%;
+    position: relative;
+    padding: 10px;
+}
+
+.cat {
+    margin: auto;
+    width: 24%;
+}
+
+.container {
+    margin: auto;
+    margin-top:50px;
+    width: 40%;
+    position: relative;
+    padding: 10px;
+}
