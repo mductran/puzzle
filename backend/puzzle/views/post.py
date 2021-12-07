@@ -12,7 +12,7 @@ from puzzle.models import Account
 
 
 class PostView(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by("-updated")
     serializer_class = PostSerializer
     permission_classes = [PostsAndCommentsPermissions, ]
     filter_backends = [DjangoFilterBackend, ]

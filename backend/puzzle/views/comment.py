@@ -15,7 +15,6 @@ class CommentView(ModelViewSet):
     # permission_classes = [PostsAndCommentsPermissions, ]
 
     def create(self, request, *args, **kwargs):
-        print('COMMENT REQUEST DATA: ', request.data)
         this_serializer = self.get_serializer(data=request.data)
         if this_serializer.is_valid(raise_exception=True):
             try:
@@ -24,8 +23,8 @@ class CommentView(ModelViewSet):
                 data = this_serializer.data
                 data['post_id'] = post.id
                 data['author_id'] = author.user.id
-                # data['author_name'] = author.user.username
-                Comment.objects.create(**data)
+                new_comment = Comment.objects.create(**data)
+                data['author_name'] = new_comment.author.user.username
                 return Response(data, status=status.HTTP_201_CREATED)
             except (Account.DoesNotExist, Post.DoesNotExist):
                 return Response(status=status.HTTP_400_BAD_REQUEST)

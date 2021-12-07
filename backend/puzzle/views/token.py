@@ -19,17 +19,18 @@ class CookieTokenRefreshSerializer(TokenRefreshSerializer):
 class CookieTokenObtainPairView(TokenObtainPairView):
   def finalize_response(self, request, response, *args, **kwargs):
     if response.data.get('refresh'):
+        access_max_age = 60 * 15
         refresh_max_age = 60 * 60 * 12  # 12 hours
         response.set_cookie(
             'refresh_token', response.data['refresh'], max_age=refresh_max_age, httponly=True)
         del response.data['refresh']
     if response.data.get('access'):
         response.set_cookie(
-            'access_token', response.data['access'], httponly=False)
+            'access_token', response.data['access'], max_age=access_max_age)
 
-    response["Access-Control-Allow-Headers"] = "Set-Cookie"
-    response["Access-Control-Allow-Origin"] = "http://localhost:8080"
-    response["Access-Control-Expose-Headers"] = "Set-Cookie"
+    # response["Access-Control-Allow-Headers"] = "Set-Cookie"
+    # response["Access-Control-Allow-Origin"] = "http://localhost:8080"
+    # response["Access-Control-Expose-Headers"] = "Set-Cookie"
 
     return super().finalize_response(request, response, *args, **kwargs)
 
@@ -39,17 +40,17 @@ class CookieTokenRefreshView(TokenRefreshView):
 
     def finalize_response(self, request, response, *args, **kwargs):
         if response.data.get('refresh'):
-            # access_max_age =  60 * 5
+            access_max_age =  60 * 15
             refresh_max_age = 60 * 60 * 12  # 12 hours
             response.set_cookie(
                 'refresh_token', response.data['refresh'], max_age=refresh_max_age, httponly=True)
             response.set_cookie('access_token', response.data['access'])
             del response.data['refresh']
         if response.data.get('access'):
-            response.set_cookie('access_token', response.data['access'])
+            response.set_cookie('access_token', response.data['access'], max_age=access_max_age)
 
-        response["Access-Control-Allow-Origin"] = "http://localhost:8080"
-        response["Access-Control-Allow-Headers"] = "Set-Cookie"
-        response["Access-Control-Expose-Headers"] = "Set-Cookie"
+        # response["Access-Control-Allow-Origin"] = "http://localhost:8080"
+        # response["Access-Control-Allow-Headers"] = "Set-Cookie"
+        # response["Access-Control-Expose-Headers"] = "Set-Cookie"
 
         return super().finalize_response(request, response, *args, **kwargs)

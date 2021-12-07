@@ -14,6 +14,5 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ["id", "author_name", "content", "created", "updated", "image", "comments"]
 
     def create(self, validated_data):
-        print('\nVALIDATED DATA: ', validated_data)
         post_instance = Post.objects.create(**validated_data)
         return post_instance
