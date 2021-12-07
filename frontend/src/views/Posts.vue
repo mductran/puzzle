@@ -95,7 +95,7 @@ export default {
             )
         },
     },
-    mounted(){217
+    mounted(){
         this.onResize()
         this.getPosts()
     },

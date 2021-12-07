@@ -82,10 +82,15 @@ export const actions = {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + payload.token
       },
       redirect: "follow",
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload.body)
     })
+    const result = { ...(await response.json()), status: response.status };
+    if (result.status == 201) {
+      commit("sharePost", result)
+    }
   },
 
   async shareComment({ commit }, payload) {
@@ -110,6 +115,9 @@ export const actions = {
 export const mutations = {
   shareComment(state, newComment) {
     // https://stackoverflow.com/questions/40860592/vuex-getter-not-updating
+
+    console.log(newComment)
+
     var index = 0
     while (index < state.posts.length) {
       if (state.posts[index].id == newComment.post_id) {
@@ -121,6 +129,10 @@ export const mutations = {
     let updatedPost = JSON.parse(JSON.stringify(state.posts[index]))
     updatedPost.comments.push(newComment)
     Vue.set(state.posts, index, updatedPost)
+  },
+
+  sharePost(state, newPost) {
+    state.posts.unshift(newPost)
   },
 
   wipePost(state) {
@@ -143,10 +155,6 @@ export const mutations = {
 
   setCurrentPage(state, currentPage) {
     state.current_page = currentPage
-  },
-
-  setCurrentPost(state, newPost) {
-    state.current_page = newPost 
   },
 
   setNext(state, nextLink) {

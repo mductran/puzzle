@@ -1,6 +1,16 @@
 <template>
   <v-card justify-center outlined class="post-card">
-    <v-card-title> @{{ postContent.author_name }} </v-card-title>
+    <v-card-title>
+      @{{ postContent.author_name }}
+      <v-spacer/>
+      <v-icon
+        v-if="currentUserIsAuthor(postContent.author_name)"
+        @click.prevent="loadMenu"
+      >
+        mdi-dots-vertical
+      </v-icon>
+    </v-card-title>
+
     <v-card-subtitle> {{ getMoment(postContent.updated) }} </v-card-subtitle>
     <v-card-text> {{ postContent.content }} </v-card-text>
     <v-img
@@ -69,6 +79,9 @@ export default {
     getMoment(datetime) {
       return moment(datetime).fromNow();
     },
+    currentUserIsAuthor(author_name) {
+      return this.myCurrentUser.username == author_name;
+    },
     submitComment() {
       const payload = {
         content: this.userComment,
@@ -77,6 +90,9 @@ export default {
       };
       this.$store.dispatch("blogs/shareComment", payload);
       this.userComment = "";
+    },
+    loadMenu() {
+      alert("menu loaded");
     },
   },
 };

@@ -42,23 +42,31 @@ export default {
   computed: {
     ...mapGetters({
       myPosts: "blogs/getPosts",
+      myCurrentUser: "users/getCurrentUser",
       myTotalPages: "blogs/getTotalPages",
       myCurrentPost: "blogs/getCurrentPost",
       myCurrentPage: "blogs/getCurrentPage",
     }),
-    // ...mapState({
-    //   // myPosts: "blogs/posts",
-    //   myPosts: state => state.blogs.posts // https://github.com/nuxt/nuxt.js/issues/3709 why??
-    // })
   },
   components: {
     Post,
   },
   methods: {
+    getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    },
     sharePost() {
+      const token = this.getCookie("access_token");
       const payload = {
-        content: this.postContent,
+        body: {
+          content: this.postContent,
+          author_id: this.myCurrentUser.id,
+        },
+        token: token,
       };
+      this.$store.dispatch("blogs/sharePost", payload, token);
     },
   },
   created() {
