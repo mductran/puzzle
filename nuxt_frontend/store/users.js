@@ -33,6 +33,32 @@ const parseJwt = (token) => {
 export const state = getDefaultState()
 
 export const actions = {
+
+  async register({ commit }, payload) {
+    const url = "http://localhost:8000/accounts/"
+
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(payload)
+    })
+
+    const result = { ...(await response.json()), status: response.status };
+
+    if (response.status == 201) {
+      alert("Successfully registered")
+    }
+    else {
+      alert(response)
+    }
+
+  },
+
   async login({ commit }, userCredentials) {
 
     const url = "http://localhost:8000/login"

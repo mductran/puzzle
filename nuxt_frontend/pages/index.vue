@@ -10,20 +10,21 @@
         <NuxtLink to="/blog"> Blog </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/swap"> Trading </NuxtLink>
+        <NuxtLink to="/trade"> Trading </NuxtLink>
       </li>
     </ol>
 
-    <Post v-bind:postContent="test_post"/>
-
+    <Post v-bind:postContent="test_post" />
   </div>
 </template>
 
 <script>
-import Post from '../components/Post.vue'
-
+import Post from "../components/Post.vue"
 
 export default {
+  layout(context) {
+    return "register";
+  },
   components: {
     Post,
   },
@@ -66,8 +67,8 @@ export default {
             author_name: "ductran",
           },
         ],
-      }
-    }
+      },
+    };
   },
 };
 </script>

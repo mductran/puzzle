@@ -54,26 +54,6 @@ export const actions = {
     }
   },
 
-  async getPost({ commit }, postId) {
-    const url = "http://localhost:8000/posts/" + postId
-    const respones = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      body: JSON.stringify()
-    })
-    const res = await (response.json())
-    if (response.status == 200) {
-      commit("setCurrentPage", res)
-    } else if (response.status >= 400) {
-      commit("pushError", res)
-    }
-  },
-
   async sharePost({ commit }, payload) {
     const url = "http://localhost:8000/posts/"
     const response = await fetch(url, {
@@ -149,10 +129,6 @@ export const mutations = {
     }
   },
 
-  setTotalPages(state, pageCount) {
-    state.total_page = pageCount
-  },
-
   setCurrentPage(state, currentPage) {
     state.current_page = currentPage
   },
@@ -163,10 +139,6 @@ export const mutations = {
 
   setPrev(state, prevLink) {
     state.prev = prevLink
-  },
-
-  setCurrentPage(state, page) {
-    state.current_page = page
   },
 
   setTotalPages(state, totalPages) {

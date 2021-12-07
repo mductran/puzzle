@@ -1,7 +1,7 @@
 <template>
   <v-app class="user-layout">
     <header>
-      <v-toolbar dense class="fixed-bar" id="navbar">
+      <v-toolbar elevation="0" dense class="fixed-bar" id="navbar">
         <NuxtLink :to="myLogin ? '/' : '/introduction'">
           <v-img
             contain
@@ -41,11 +41,6 @@
           </template>
           <v-list>
             <v-list-item text>
-              <!-- <NuxtLink to="/account">
-                <v-btn text>
-                  Your Profile
-                </v-btn>
-              </NuxtLink> -->
               <v-list-item-title>Your Profile</v-list-item-title>
             </v-list-item>
             <v-list-item text @click="logout">
@@ -177,6 +172,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("users/logout")
+      window.location.assign("http://localhost:8000/introduction")
     }
   },
   mounted() {
