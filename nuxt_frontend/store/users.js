@@ -34,7 +34,7 @@ export const state = getDefaultState()
 
 export const actions = {
 
-  async register({ commit }, payload) {
+  async register({ commit, getters }, payload) {
     const url = "http://localhost:8000/accounts/"
 
     const response = await fetch(url, {
@@ -51,7 +51,8 @@ export const actions = {
     const result = { ...(await response.json()), status: response.status };
 
     if (response.status == 201) {
-      alert("Successfully registered")
+      alert("Successfully registered. Please login again.")
+      window.location.assign("http://localhost:3000/")
     }
     else {
       alert(response)

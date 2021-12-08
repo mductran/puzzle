@@ -1,3 +1,15 @@
 <template>
-  <h1> introduction </h1>
+  <div class="page-container">introduction</div>
 </template>
+
+<style scoped>
+@import "../assets/styles/app.css";
+</style>
+
+<script>
+export default {
+  layout(context) {
+    return "anon";
+  },
+};
+</script>

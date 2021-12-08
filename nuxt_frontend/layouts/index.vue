@@ -83,7 +83,7 @@
           label="password"
           type="password"
           v-model="password"
-          autocomplete="false"
+          autocomplete="off"
           clearable
           class="input-field"
         />
@@ -123,7 +123,7 @@ import { mapGetters } from'vuex'
 
 Vue.use(Vuetify)
 
-export default {
+export default {  
   data: () => {
     return {
       logoSource: require("../assets/thuzzle-logo.png"),
@@ -172,7 +172,7 @@ export default {
     },
     logout() {
       this.$store.dispatch("users/logout")
-      window.location.assign("http://localhost:8000/introduction")
+      window.location.assign("http://localhost:3000/introduction")
     }
   },
   mounted() {

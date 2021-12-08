@@ -23,7 +23,7 @@ import Post from "../components/Post.vue"
 
 export default {
   layout(context) {
-    return "register";
+    return "anon";
   },
   components: {
     Post,

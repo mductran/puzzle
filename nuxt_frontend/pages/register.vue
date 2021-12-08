@@ -75,7 +75,7 @@ const containIllegalChars = helpers.regex("containIllegalChars", /^[<>$%]/);
 
 export default {
   layout(context) {
-    return "register";
+    return "anon";
   },
   mixins: {
     validationMixin,
@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     validate() {
-      console.log("registering")
+      this.$store.dispatch("setLastBeforeRoute", this.$nuxt.$route.fullPath)
       const payload = {
         user: {
           username: this.username,
