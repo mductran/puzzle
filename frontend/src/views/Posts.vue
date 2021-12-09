@@ -88,7 +88,6 @@ export default {
                 (response) => {
                     if (response.status == 201){
                         this.posts.unshift(response)
-                        console.log(this.posts)
                         this.newPost = ""
                     }
                 }
