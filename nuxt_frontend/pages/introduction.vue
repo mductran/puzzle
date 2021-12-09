@@ -9,7 +9,7 @@
 <script>
 export default {
   layout(context) {
-    return "anon";
+    return "guest";
   },
 };
 </script>

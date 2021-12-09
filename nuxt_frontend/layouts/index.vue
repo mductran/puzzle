@@ -2,7 +2,7 @@
   <v-app class="user-layout">
     <header>
       <v-toolbar elevation="0" dense class="fixed-bar" id="navbar">
-        <NuxtLink :to="myLogin ? '/' : '/introduction'">
+        <NuxtLink :to="myLogin ? '/introduction' : '/'">
           <v-img
             contain
             :src="logoSource"
@@ -25,11 +25,11 @@
 
         <v-spacer />
 
-        <NuxtLink to="/trade">
+        <NuxtLink :to="{path: 'trade'}">
           <v-btn text> Trade </v-btn>
         </NuxtLink>
 
-        <NuxtLink to="/blog">
+        <NuxtLink :to="{name: 'blog', query: {page: 1}}">
           <v-btn text> Blog </v-btn>
         </NuxtLink>
 
@@ -172,13 +172,12 @@ export default {
     },
     logout() {
       this.$store.dispatch("users/logout")
-      window.location.assign("http://localhost:3000/introduction")
+      // window.location.assign("http://localhost:3000/introduction")
+      this.$route.push("index")
     }
   },
   mounted() {
     this.resizeLogo();
-    console.log(this.myLogin)
-    console.log(Object.keys(this.myCurrentUser).length)
   },
 };
 </script>

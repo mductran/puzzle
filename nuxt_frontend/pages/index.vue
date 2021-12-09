@@ -4,13 +4,19 @@
     <h1>Landing page</h1>
     <ol>
       <li>
-        <NuxtLink to="/register"> Register </NuxtLink>
+        <NuxtLink :to="{ name: 'register' }">
+          <v-btn text> Register </v-btn>
+        </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/blog"> Blog </NuxtLink>
+        <NuxtLink :to="{ name: 'blog', query: { page: 1 } }">
+          <v-btn text> Blog </v-btn>
+        </NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/trade"> Trading </NuxtLink>
+        <NuxtLink :to="{ path: 'trade' }">
+          <v-btn text> Trade </v-btn>
+        </NuxtLink>
       </li>
     </ol>
 
@@ -19,11 +25,11 @@
 </template>
 
 <script>
-import Post from "../components/Post.vue"
+import Post from "../components/Post.vue";
 
 export default {
   layout(context) {
-    return "anon";
+    return "guest";
   },
   components: {
     Post,

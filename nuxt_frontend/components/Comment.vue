@@ -50,7 +50,6 @@ export default ({
             alert("menu loaded")
         },
         currentUserIsAuthor(author_id) {
-            console.log(author_id, this.myCurrentUser.id == author_id)
             return this.myCurrentUser.id == author_id
         }
     },

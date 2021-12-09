@@ -8,11 +8,21 @@
         @click:append-outer="sharePost"
       />
     </v-card>
+
     <v-responsive class="justify-center">
       <div v-for="post in this.myPosts" v-bind:key="post.id">
         <Post v-bind:postContent="post" />
       </div>
     </v-responsive>
+
+    <v-pagination
+      circle
+      v-model="myCurrentPage"
+      :length="myTotalPages"
+      :total_visible="7"
+      color="#42a5f5"
+      @input="goToPage"
+    />
   </v-container>
 </template>
 
@@ -35,21 +45,28 @@ export default {
   },
   data: () => {
     return {
-      layoutName: "",
       postContent: "",
+      myCurrentPage: 1,
     };
   },
   computed: {
     ...mapGetters({
-      myPosts: "blogs/getPosts",
+      myLogin: "users/getLogin",
       myCurrentUser: "users/getCurrentUser",
+      myPosts: "blogs/getPosts",
       myTotalPages: "blogs/getTotalPages",
-      myCurrentPost: "blogs/getCurrentPost",
-      myCurrentPage: "blogs/getCurrentPage",
+
+      myNext: "blogs/getNext",
+      myPrev: "blogs/getPrev",
     }),
   },
   components: {
     Post,
+  },
+  watch: {
+    $route() {
+      this.$store.dispatch("blogs/getPosts", this.myCurrentPage);
+    },
   },
   methods: {
     getCookie(name) {
@@ -58,19 +75,35 @@ export default {
       if (parts.length === 2) return parts.pop().split(";").shift();
     },
     sharePost() {
-      const token = this.getCookie("access_token");
-      const payload = {
-        body: {
-          content: this.postContent,
-          author_id: this.myCurrentUser.id,
+      if (!this.myLogin) {
+        alert("Login to post");
+      } else {
+        const token = this.getCookie("access_token");
+        const payload = {
+          body: {
+            content: this.postContent,
+            author_id: this.myCurrentUser.id,
+          },
+          token: token,
+        };
+        this.$store.dispatch("blogs/sharePost", payload, token);
+      }
+    },
+    goToPage(nextPage) {
+      if (nextPage > this.myTotalPages) {
+        this.nextPage = this.myTotalPages;
+      }
+      this.$router.push({
+        path: this.$route.path,
+        query: {
+          page: nextPage,
         },
-        token: token,
-      };
-      this.$store.dispatch("blogs/sharePost", payload, token);
+      });
     },
   },
-  created() {
-    this.$store.dispatch("blogs/getPosts");
+  mounted() {
+    this.myCurrentPage = this.$route.query.page;
+    this.$store.dispatch("blogs/getPosts", this.myCurrentPage);
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <header>
       <v-toolbar elevation="0" dense class="fixed-bar" id="navbar">
         <v-spacer />
-        <NuxtLink :to="myLogin ? '/' : '/introduction'">
+        <NuxtLink :to="myLogin ? '/introduction' : '/'">
           <v-img
             contain
             :src="logoSource"

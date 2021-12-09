@@ -8,10 +8,8 @@ export const plugins = [
 const getDefaultState = () => {
   return {
     posts: [],
-    currentPost: [],
     errors: [],
-    total_pages: 0,
-    current_page: 0,
+    total_pages: 1,
     next: "",
     prev: "",
   }
@@ -19,14 +17,8 @@ const getDefaultState = () => {
 
 export const state = getDefaultState()
 
-
 export const actions = {
-  switchPage({ commit }, page) {
-    commit('setCurrentPage', page)
-  },
-
   async getPosts({ commit }, page = 1) {
-    commit("wipePost")
     const url = "http://localhost:8000/posts?page=" + page
     const response = await fetch(url, {
       method: "GET",
@@ -95,9 +87,6 @@ export const actions = {
 export const mutations = {
   shareComment(state, newComment) {
     // https://stackoverflow.com/questions/40860592/vuex-getter-not-updating
-
-    console.log(newComment)
-
     var index = 0
     while (index < state.posts.length) {
       if (state.posts[index].id == newComment.post_id) {
@@ -115,22 +104,20 @@ export const mutations = {
     state.posts.unshift(newPost)
   },
 
-  wipePost(state) {
-    state.posts.length = 0
-  },
-
   resetState(state) {
     Object.assign(state, getDefaultState())
   },
 
   setPosts(state, posts) {
+    state.posts.length = 0
     for (let i = 0; i < posts.length; i++) {
       state.posts.push(posts[i])
+      // Vue.set(state.posts, i, posts[i])
     }
   },
 
-  setCurrentPage(state, currentPage) {
-    state.current_page = currentPage
+  setTotalPages(state, totalPages) {
+    state.total_pages = totalPages
   },
 
   setNext(state, nextLink) {
@@ -139,10 +126,6 @@ export const mutations = {
 
   setPrev(state, prevLink) {
     state.prev = prevLink
-  },
-
-  setTotalPages(state, totalPages) {
-    state.total_pages = totalPages
   },
 
   pushError(state, error) {
@@ -154,13 +137,13 @@ export const getters = {
   getPosts(state) {
     return state.posts
   },
-  getCurrentPost(state) {
-    return state.currentPost
-  },
-  getCurrentPage(state) {
-    return state.current_page
-  },
   getTotalPages(state) {
     return state.total_pages
+  },
+  getNext(state) {
+    return state.next
+  },
+  getPrev(state) {
+    return state.prev
   }
 }

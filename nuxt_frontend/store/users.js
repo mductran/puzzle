@@ -52,10 +52,12 @@ export const actions = {
 
     if (response.status == 201) {
       alert("Successfully registered. Please login again.")
-      window.location.assign("http://localhost:3000/")
+      // window.location.assign("http://localhost:3000/")
+      this.app.router.push("/")
     }
     else {
-      alert(response)
+      console.log("register error", response)
+      alert("Error")
     }
 
   },
