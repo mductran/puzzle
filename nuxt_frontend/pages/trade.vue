@@ -11,7 +11,7 @@
         Find trade
       </v-btn>
       <v-btn text class="cat" @click.prevent="swap('listing')">
-        Public listing
+        Listing
       </v-btn>
     </v-card>
 

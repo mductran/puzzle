@@ -9,3 +9,5 @@ from puzzle.serializers.theme import ThemeSerializer
 from puzzle.serializers.inventory import InventorySerializer
 from puzzle.serializers.image import ImageSerializer
 from puzzle.serializers.token import TokenSerializer
+from puzzle.serializers.trade import TradeSerializer
+from puzzle.serializers.offer import OfferSerializer

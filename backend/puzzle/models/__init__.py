@@ -7,3 +7,5 @@ from puzzle.models.comment import Comment
 from puzzle.models.inventory import Inventory
 from puzzle.models.theme import Theme
 from puzzle.models.image import Image
+from puzzle.models.trade import Trade
+from puzzle.models.offer import Offer

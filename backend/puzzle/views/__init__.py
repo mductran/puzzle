@@ -10,3 +10,5 @@ from puzzle.views.image import ImageView
 from puzzle.views.token import CookieTokenObtainPairView, CookieTokenRefreshView
 from puzzle.views.logout import BlacklistRefreshView
 from puzzle.views.current_user import CurrentUserView
+from puzzle.views.trade import TradeView
+from puzzle.views.offer import OfferView
