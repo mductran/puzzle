@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.puzzle.models.offer import Offer
+from puzzle.models.offer import Offer
 from puzzle.models import Trade
 
 from .offer import OfferSerializer

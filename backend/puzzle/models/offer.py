@@ -6,6 +6,6 @@ class Offer(models.Model):
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey("Account", on_delete=True)
+    author = models.ForeignKey("Account", on_delete=models.CASCADE)
     trade = models.ForeignKey("Trade", on_delete=models.CASCADE)
     note = models.TextField()

@@ -33,6 +33,10 @@
           <v-btn text> Blog </v-btn>
         </NuxtLink>
 
+        <NuxtLink :to="{name: 'discussion', query: {page: 1}}">
+          <v-btn text> Discussion </v-btn>
+        </NuxtLink>
+
         <v-menu text v-if="myLogin" offset-y bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn text v-bind="attrs" v-on="on">
@@ -173,7 +177,7 @@ export default {
     logout() {
       this.$store.dispatch("users/logout")
       // window.location.assign("http://localhost:3000/introduction")
-      this.$route.push("index")
+      this.$router.push("/")
     }
   },
   mounted() {
