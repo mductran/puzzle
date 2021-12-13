@@ -31,7 +31,7 @@
 </style>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 import Vue from "vue";
 import Vuetify from "vuetify";
@@ -55,9 +55,6 @@ export default {
       myCurrentUser: "users/getCurrentUser",
       myPosts: "blogs/getPosts",
       myTotalPages: "blogs/getTotalPages",
-
-      myNext: "blogs/getNext",
-      myPrev: "blogs/getPrev",
     }),
   },
   components: {

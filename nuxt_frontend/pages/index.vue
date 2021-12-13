@@ -14,7 +14,7 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="{ path: 'trade' }">
+        <NuxtLink :to="{ path: 'trade', query: {page: 1} }">
           <v-btn text> Trade </v-btn>
         </NuxtLink>
       </li>

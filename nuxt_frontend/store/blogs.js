@@ -10,8 +10,6 @@ const getDefaultState = () => {
     posts: [],
     errors: [],
     total_pages: 1,
-    next: "",
-    prev: "",
   }
 }
 
@@ -30,17 +28,12 @@ export const actions = {
       redirect: "follow",
       body: JSON.stringify()
     })
-    const res = await (response.json())
+    const res = await(response.json())
 
     if (response.status == 200) {
       commit("setPosts", res.results)
       commit("setTotalPages", res.total_pages)
-      if (res.links.next) {
-        commit("setNext", res.links.next)
-      }
-      if (res.links.prev) {
-        commit("setPrev", res.links.prev)
-      }
+
     } else if (res.status >= 400) {
       commit("pushError", res)
     }
@@ -120,14 +113,6 @@ export const mutations = {
     state.total_pages = totalPages
   },
 
-  setNext(state, nextLink) {
-    state.next = nextLink
-  },
-
-  setPrev(state, prevLink) {
-    state.prev = prevLink
-  },
-
   pushError(state, error) {
     state.errors.push(error)
   }
@@ -140,10 +125,4 @@ export const getters = {
   getTotalPages(state) {
     return state.total_pages
   },
-  getNext(state) {
-    return state.next
-  },
-  getPrev(state) {
-    return state.prev
-  }
 }

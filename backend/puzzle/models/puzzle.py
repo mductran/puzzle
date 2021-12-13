@@ -15,7 +15,7 @@ class Puzzle(models.Model):
 
     name = models.CharField(max_length=255)
 
-    condition = models.TextField(
+    box_condition = models.TextField(
         max_length=3,
         choices=Condition.choices
     )

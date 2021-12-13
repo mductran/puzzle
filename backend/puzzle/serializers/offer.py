@@ -9,7 +9,7 @@ class OfferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
         fields = ["id", "author_name", "created",
-                  "updated", "trade", "item_image", "note"]
+                  "updated", "trade", "note"]
 
     def create(self, validated_data):
         trade_instance = Offer.objects.create(**validated_data)

@@ -11,6 +11,8 @@ router.register(r'posts', PostView)
 router.register(r'comments', CommentView)
 router.register(r'inventories', InventoryView)
 router.register(r'images', ImageView)
+router.register(r'trades', TradeView)
+router.register(r'offers', OfferView)
 
 urlpatterns = [
     path('', include(router.urls)),
