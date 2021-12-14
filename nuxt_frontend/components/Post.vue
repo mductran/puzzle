@@ -2,7 +2,7 @@
   <v-card justify-center outlined class="post-card">
     <v-card-title>
       @{{ postContent.author_name }}
-      <v-spacer/>
+      <v-spacer />
       <v-icon
         v-if="currentUserIsAuthor(postContent.author_name)"
         @click.prevent="loadMenu"
@@ -13,12 +13,22 @@
 
     <v-card-subtitle> {{ getMoment(postContent.updated) }} </v-card-subtitle>
     <v-card-text> {{ postContent.content }} </v-card-text>
-    <v-img
-      contain
-      :height="imageHeight"
-      :src="postContent.image"
-      class="post-image"
-    />
+
+    <!-- <div v-for="image in postContent.collage.images" v-bind:key="image.id">
+      <p> {{ image.url }} </p>
+    </div> -->
+
+    <v-carousel height="auto" cycle hide-delimiter-background>
+      <v-carousel-item
+        v-for="image in postContent.collage.images"
+        v-bind:key="image.id"
+        eager
+      >
+        <v-img :src="image.url" eager contain class="collage-image"/>
+      </v-carousel-item>
+    </v-carousel>
+
+    <v-divider class="divider"/>
 
     <v-card-actions>
       <v-btn text style="width: 50%"> React </v-btn>
