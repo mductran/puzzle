@@ -4,7 +4,7 @@
     <h1>Landing page</h1>
     <ol>
       <li>
-        <NuxtLink :to="{ name: 'register' }">
+        <NuxtLink :to="{ path: 'register' }">
           <v-btn text> Register </v-btn>
         </NuxtLink>
       </li>

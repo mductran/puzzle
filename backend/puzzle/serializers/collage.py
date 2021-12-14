@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from puzzle.models import Collage
 
+from .image import ImageSerializer
+
 
 class CollageSerializer(serializers.ModelSerializer):
-    image_id = serializers.IntegerField(source="image.id", read_only=True)
-    image_caption = serializers.CharField(source="image.caption", read_only=True)
-    image_url = serializers.URLField(source="image.url", read_only=True)
+    images = ImageSerializer(source="image_set", read_only=True, many=True)
 
     class Meta:
         model = Collage

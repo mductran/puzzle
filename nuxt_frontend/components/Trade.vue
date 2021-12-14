@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="1">
+    <v-card elevation="1" class="trade-card">
       <v-card-title> {{ tradeContent.item_name }} </v-card-title>
       <v-card-subtitle> From @{{ tradeContent.author_name }} </v-card-subtitle>
       <v-card-subtitle> {{ getMoment(tradeContent.updated) }} </v-card-subtitle>
@@ -22,6 +22,10 @@
     </v-card>
   </div>
 </template>
+
+<style scoped>
+@import "../assets/styles/tradecard.css";
+</style>
 
 <script>
 import { mapGetters } from "vuex";

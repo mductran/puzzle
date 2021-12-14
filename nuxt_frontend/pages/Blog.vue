@@ -41,7 +41,7 @@ Vue.use(Vuetify);
 
 export default {
   layout(context) {
-    return "trade";
+    return "index";
   },
   data: () => {
     return {
