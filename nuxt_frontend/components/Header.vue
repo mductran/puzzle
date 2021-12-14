@@ -28,11 +28,11 @@
         <v-btn text> Trade </v-btn>
       </NuxtLink>
 
-      <NuxtLink :to="{ name: 'blog', query: { page: 1 } }">
+      <NuxtLink :to="{ path: 'blog', query: { page: 1 } }">
         <v-btn text> Blog </v-btn>
       </NuxtLink>
 
-      <NuxtLink :to="{ name: 'discussion', query: { page: 1 } }">
+      <NuxtLink :to="{ path: 'discussion', query: { page: 1 } }">
         <v-btn text> Discussion </v-btn>
       </NuxtLink>
 
@@ -53,6 +53,10 @@
       </v-menu>
       <v-btn text v-else @click.stop="showLoginDialog"> Sign In </v-btn>
     </v-toolbar>
+
+    <v-overlay v-if="myOverlay">
+      <LoginDialog />
+    </v-overlay>
   </header>
 </template>
 
@@ -63,8 +67,13 @@
 <script>
 import { mapGetters } from "vuex";
 
+import LoginDialog from "./LoginDialog.vue";
+
 export default {
   name: "Header",
+  component: {
+    LoginDialog,
+  },
   data: () => {
     return {
       logoSource: require("../assets/thuzzle-logo.png"),
@@ -77,6 +86,7 @@ export default {
     ...mapGetters({
       myLogin: "users/getLogin",
       myCurrentUser: "users/getCurrentUser",
+      myOverlay: "header/getOverlay",
     }),
   },
   methods: {
@@ -94,6 +104,17 @@ export default {
       const params = this.constructParams();
       console.log("searching", params);
     },
+    showLoginDialog() {
+      this.$store.dispatch("header/toggleOverlay", !this.myOverlay);
+    },
+    logout() {
+      this.$store.dispatch("users/logout");
+      // window.location.assign("http://localhost:3000/introduction")
+      this.$router.push("/");
+    },
+  },
+  mounted() {
+    this.resizeLogo();
   },
 };
 </script>

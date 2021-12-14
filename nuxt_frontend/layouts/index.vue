@@ -29,11 +29,11 @@
           <v-btn text> Trade </v-btn>
         </NuxtLink>
 
-        <NuxtLink :to="{name: 'blog', query: {page: 1}}">
+        <NuxtLink :to="{path: 'blog', query: {page: 1}}">
           <v-btn text> Blog </v-btn>
         </NuxtLink>
 
-        <NuxtLink :to="{name: 'discussion', query: {page: 1}}">
+        <NuxtLink :to="{name: 'discussion'}">
           <v-btn text> Discussion </v-btn>
         </NuxtLink>
 

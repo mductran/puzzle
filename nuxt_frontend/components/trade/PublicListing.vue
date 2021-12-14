@@ -64,7 +64,7 @@ export default {
     },
   },
   mounted() {
-    this.myCurrentPage = this.$route.query.page;
+    this.myCurrentPage = parseInt(this.$route.query.page);
     this.$store.dispatch("trades/getTrades", this.myCurrentPage);
   },
 };

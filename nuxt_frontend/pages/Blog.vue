@@ -41,7 +41,7 @@ Vue.use(Vuetify);
 
 export default {
   layout(context) {
-    return "index";
+    return "trade";
   },
   data: () => {
     return {
@@ -99,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    this.myCurrentPage = this.$route.query.page;
+    this.myCurrentPage = parseInt(this.$route.query.page);
     this.$store.dispatch("blogs/getPosts", this.myCurrentPage);
   },
 };

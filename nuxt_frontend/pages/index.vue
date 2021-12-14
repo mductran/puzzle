@@ -9,12 +9,12 @@
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="{ name: 'blog', query: { page: 1 } }">
+        <NuxtLink :to="{ path: 'blog', query: { page: 1 } }">
           <v-btn text> Blog </v-btn>
         </NuxtLink>
       </li>
       <li>
-        <NuxtLink :to="{ path: 'trade', query: {page: 1} }">
+        <NuxtLink :to="{ path: 'trade', query: {page: 1 } }">
           <v-btn text> Trade </v-btn>
         </NuxtLink>
       </li>
