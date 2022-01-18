@@ -14,21 +14,30 @@
     <v-card-subtitle> {{ getMoment(postContent.updated) }} </v-card-subtitle>
     <v-card-text> {{ postContent.content }} </v-card-text>
 
-    <!-- <div v-for="image in postContent.collage.images" v-bind:key="image.id">
-      <p> {{ image.url }} </p>
-    </div> -->
+    <v-carousel
+      height="auto"
+      cycle
+      hide-delimiters
+      show-arrows-on-hover
+      v-if="Object.keys(postContent.collage.images).length > 0"
+    >
+      <template v-slot:prev="{ on, attrs }">
+        <v-icon v-bind="attrs" v-on="on"> mdi-chevron-left </v-icon>
+      </template>
+      <template v-slot:next="{ on, attrs }">
+        <v-icon v-bind="attrs" v-on="on"> mdi-chevron-right </v-icon>
+      </template>
 
-    <v-carousel height="auto" cycle hide-delimiter-background>
       <v-carousel-item
         v-for="image in postContent.collage.images"
         v-bind:key="image.id"
         eager
       >
-        <v-img :src="image.url" eager contain class="collage-image"/>
+        <v-img :src="image.url" eager contain class="collage-image" />
       </v-carousel-item>
     </v-carousel>
 
-    <v-divider class="divider"/>
+    <v-divider class="divider" />
 
     <v-card-actions>
       <v-btn text style="width: 50%"> React </v-btn>
@@ -36,6 +45,8 @@
         Comments
       </v-btn>
     </v-card-actions>
+
+    <v-divider />
 
     <v-expand-transition>
       <v-card

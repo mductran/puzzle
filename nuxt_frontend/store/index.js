@@ -1,7 +1,9 @@
 import createPersistedState from 'vuex-persistedstate'
 
 export const plugins = [
-  createPersistedState()
+  createPersistedState({
+    storage: window.sessionStorage,
+  })
 ]
 
 // export const state = {

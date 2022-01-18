@@ -1,40 +1,32 @@
 import createPersistedState from 'vuex-persistedstate'
-
 import Vue from 'vue'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
-
-export const plugins = [
-  createPersistedState({
-    key: "user",
-    storage: window.localStorage,
-  })
-]
+import {
+  parseJwt,
+} from "../utils/token"
 
 const getDefaultState = () => {
   return {
     login: false,
     currentUser: {},
-    errors: [],
+    access_expired: false,
+    refresh_expired: false,
   }
 }
 
-const parseJwt = (token) => {
-  var base64Url = token.split('.')[1]
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-  }).join(''))
 
-  return JSON.parse(jsonPayload);
-}
+export const plugins = [
+  createPersistedState({
+    key: "user",
+    storage: window.sessionStorage,
+  })
+]
 
 export const state = getDefaultState()
 
 export const actions = {
 
-  async register({ commit, getters }, payload) {
+  async register(context, payload) {
     const url = "http://localhost:8000/accounts/"
 
     const response = await fetch(url, {
@@ -48,24 +40,19 @@ export const actions = {
       body: JSON.stringify(payload)
     })
 
-    const result = { ...(await response.json()), status: response.status };
-
     if (response.status == 201) {
       alert("Successfully registered. Please login again.")
-      // window.location.assign("http://localhost:3000/")
       this.app.router.push("/")
-    }
-    else {
-      console.log("register error", response)
+    } else {
       alert("Error")
     }
 
   },
 
-  async login({ commit }, userCredentials) {
+  async login(context, userCredentials) {
 
     const url = "http://localhost:8000/login"
-    
+
     const response = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -78,30 +65,80 @@ export const actions = {
     })
 
     if (response.status == 200) {
-      const result = {...await(response.json())}
+      const result = {
+        ...await (response.json())
+      }
+
       const parsedAccess = parseJwt(result.access)
+
       const currentUser = {
         username: userCredentials.username,
         id: parsedAccess.user_id,
         exp: parsedAccess.exp
       }
-      commit("setCurrentUser", currentUser)
-    } 
-    else if (response.status >= 400) {
-      commit("pushError", response)
+
+      context.commit("setCurrentUser", currentUser)
+      context.dispatch("header/toggleOverlay", false, {
+        root: true
+      })
+    } else if (response.status >= 400) {
+      const message = "Incorrect username or password"
+      context.dispatch("login/setLoginErrors", message, {
+        root: true
+      })
     }
   },
 
-  async logout({ commit }) {
-    commit("resetState")
-  }
+  async refresh(context, payload) {
+    const url = "http://localhost:8000/refresh/"
+
+    const response = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "applicaton/json"
+      },
+      redirect: "follow",
+      body: JSON.stringify(payload)
+    })
+
+    if (response.status == 200) {
+      // TODO
+    } else {
+      // sign out and wipe state if refresh fail
+      context.commit("logout")
+    }
+  },
+
+  async logout(context) {
+    context.commit("resetState")
+  },
+
+  setAccessExpired(context, status) {
+    context.commit("setAccessExpired", status)
+  },
+
+  setRefreshExpired(context, status) {
+    context.commit("setRefreshExpired", status)
+  },
 }
 
 export const mutations = {
-  
+
   setCurrentUser(state, user) {
-    state.currentUser = user
-    state.login = true
+    Vue.set(state, "currentUser", user)
+    Vue.set(state, "login", true)
+  },
+
+  setAccessExpired(state, status) {
+    // state.access_expired = status
+    Vue.set(state, "access_expired", status)
+  },
+
+  setRefreshExpired(state, status) {
+    // state.refresh_expired = status
+    Vue.set(state, "refresh_expired", status)
   },
 
   resetState(state) {
@@ -119,7 +156,16 @@ export const getters = {
   getCurrentUser(state) {
     return state.currentUser
   },
+  getErrors(state) {
+    return state.errors
+  },
   getLogin(state) {
     return state.login
+  },
+  getAccessIsExpired(state) {
+    return state.access_expired
+  },
+  getRefreshIsExpired(state) {
+    return state.refresh_expired
   }
 }

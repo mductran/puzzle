@@ -1,6 +1,5 @@
 <template>
   <v-app class="user-layout">
-    
     <Header />
 
     <Nuxt />
@@ -16,6 +15,8 @@
 </style>
 
 <script>
+import { mapGetters } from "vuex";
+
 import Vue from "vue";
 import Vuetify from "vuetify";
 
@@ -34,10 +35,19 @@ export default {
       showDialog: false,
     };
   },
-  methods: {
-
+  computed: {
+    ...mapGetters({
+      myAccessIsExpired: "users/getAccessIsExpired",
+    })
   },
   mounted() {
+    if (this.myAccessIsExpired) {
+      this.$store.dispatch("users/refresh")
+      if (this.myRefreshIsExpired) {
+        alert("Your session has expired. Please login again.")
+        this.$store.dispatch("users/logout")
+      }
+    }
   },
 };
 </script>

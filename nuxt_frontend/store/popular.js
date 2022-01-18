@@ -12,7 +12,7 @@ export const state = getDefaultState()
 
 export const actions = {
   async getMostPopular({ commit }, page) {
-    const url = "http://localhost:3000/popular?page=" + page
+    const url = "http://localhost:8000/popular?page=" + page
     const response = await fetch(url, {
       method: "GET",
       mode: "cors",

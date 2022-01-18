@@ -36,6 +36,10 @@
         <v-btn text> Discussion </v-btn>
       </NuxtLink>
 
+      <NuxtLink :to="{ path: 'sets', query: { page: 1 } }">
+        <v-btn text> Puzzle Sets </v-btn>
+      </NuxtLink>
+
       <v-menu text v-if="myLogin" offset-y bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on">
@@ -52,6 +56,7 @@
         </v-list>
       </v-menu>
       <v-btn text v-else @click.stop="showLoginDialog"> Sign In </v-btn>
+      
     </v-toolbar>
 
     <v-overlay v-if="myOverlay">

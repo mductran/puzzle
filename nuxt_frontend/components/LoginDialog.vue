@@ -12,6 +12,11 @@
       <v-spacer />
       <v-icon @click.stop="toggleOverlay"> mdi-close-circle-outline </v-icon>
     </v-card-title>
+
+    <v-card-text v-if="myError">
+      {{ this.myError }}
+    </v-card-text>
+
     <v-text-field
       id="username-input"
       label="username"
@@ -22,10 +27,11 @@
     <v-text-field
       id="password-input"
       label="password"
-      type="visible ? 'text' : 'password'"
       v-model="password"
       autocomplete="off"
-      append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="visible ? 'text' : 'password'"
+      :append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+      @click:append="visible = !visible"
       class="input-field"
     />
 
@@ -67,22 +73,21 @@ export default {
   computed: {
     ...mapGetters({
       myOverlay: "header/getOverlay",
-    })
+      myError: "login/getErrors",
+      myCurrentUser: "users/getCurrentUser"
+    }),
   },
   methods: {
     toggleOverlay() {
-      this.$store.dispatch("header/toggleOverlay", !this.myOverlay)
+      this.$store.dispatch("header/toggleOverlay", !this.myOverlay);
     },
     authenticate() {
       this.$store.dispatch(
-        "users/login",
-        {
+        "users/login", {
           username: this.username,
           password: this.password,
-        },
-        { root: true }
+        }
       );
-      this.$store.dispatch("header/toggleOverlay", false);
     },
   },
 };

@@ -32,6 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getCookie } from "../utils/token.js"
 
 import Vue from "vue";
 import Vuetify from "vuetify";
@@ -66,16 +67,11 @@ export default {
     },
   },
   methods: {
-    getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    },
     sharePost() {
       if (!this.myLogin) {
         alert("Login to post");
       } else {
-        const token = this.getCookie("access_token");
+        const token = getCookie("access_token");
         const payload = {
           body: {
             content: this.postContent,
@@ -96,6 +92,7 @@ export default {
           page: nextPage,
         },
       });
+      // document.body.scrollTop = 0;
     },
   },
   mounted() {

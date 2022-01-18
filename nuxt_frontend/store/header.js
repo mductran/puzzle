@@ -7,8 +7,11 @@ const getDefaultState = () => {
 export const state = getDefaultState()
 
 export const actions = {
-  toggleOverlay({ commit }, payload) {
-    commit("setOverlay", payload)
+  toggleOverlay(context, payload) {
+    if (!payload) { // reset login errors upon closing dialog
+      context.dispatch("login/resetErrors", {},  {root: true})
+    }
+    context.commit("setOverlay", payload) 
   }
 }
 

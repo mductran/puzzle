@@ -33,7 +33,6 @@ export const actions = {
     if (response.status == 200) {
       commit("setPosts", res.results)
       commit("setTotalPages", res.total_pages)
-
     } else if (res.status >= 400) {
       commit("pushError", res)
     }
